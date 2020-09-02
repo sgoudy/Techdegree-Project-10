@@ -12,7 +12,6 @@ export default class Courses extends React.PureComponent{
         firstName: '',
         lastName: '',
         emailAddress: ''
-
       }
 
     componentDidMount(){
@@ -39,6 +38,20 @@ export default class Courses extends React.PureComponent{
     };
 
     render(){
+
+    let materials = [];
+    if (this.state.materialsNeeded){
+        materials = this.state.materialsNeeded.split('*');
+    }
+    // Need to remove first bullet point... contains no data
+    let mats;
+    if (materials){
+        mats = materials.map((item, index)=> <li key={index}>{item}</li>)
+    }
+    const items = mats.filter(item => item.key >0)
+    
+ 
+    
       
     return(
 
@@ -75,7 +88,7 @@ export default class Courses extends React.PureComponent{
                         <li className="course--stats--list--item">
                         <h4>Materials Needed</h4>
                         <ul>
-                            <li>{this.state.materialsNeeded}</li>
+                            {items}
                         </ul>
                         </li>
                     </ul>
