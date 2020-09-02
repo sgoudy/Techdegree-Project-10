@@ -3,38 +3,91 @@ import React from 'react';
 export default class Courses extends React.PureComponent{
 
     state = {
-        course: []
+        id: '',
+        title: '',
+        description: '',
+        estimatedTime: '',
+        materialsNeeded: '',
+        userId: '',
+        firstName: '',
+        lastName: '',
+        emailAddress: ''
+
       }
 
     componentDidMount(){
-    fetch('http://localhost:5000/api/courses/:id')
-    .then(res => res.json())
+    let path = this.props.location.pathname;
+    let url = 'http://localhost:5000/api' + path;
+
+    fetch(url)
+
+    .then(res => (res.json()))
     .then((data) => {
-        this.setState({ course: data})
+        this.setState({ 
+            id: data.id,
+            title: data.title,
+            description: data.description,
+            estimatedTime: data.estimatedTime,
+            materialsNeeded: data.materialsNeeded,
+            userId: data.User.id,
+            firstName: data.User.firstName,
+            lastName: data.User.lastName,
+            emailAddress: data.User.emailAddress
+        })
     })
     .catch(console.log)
     };
 
     render(){
-
-    const data = this.state.course;
+      
     return(
 
         <div className="bounds">
-        {data.map((title, index) => {
-        return (
-    
-            <div key={index} className="grid-33">
-                <a className="course--module course--link" href="/courses/:id">
-                <h4 className="course--label">Course</h4>
-                <h3 className="course--title">{title}</h3>
-                </a>
+
+            <div className="actions--bar">
+                <div className="bounds">
+                    <div className="grid-100"><span><a className="button" href="update-course.html">Update Course</a><a className="button" href="#">Delete Course</a></span><a
+                        className="button button-secondary" href="index.html">Return to List</a>
+                    </div>
+                </div>
+            </div>
+
+            <div className="bounds course--detail" key={this.state.id}>
+                
+                <div className="grid-66">
+                    <div className="course--header">
+                    <h4 className="course--label">Course</h4>
+                    <h3 className="course--title">{this.state.title}</h3>
+                    <p>By {this.state.firstName + ' ' + this.state.lastName}</p>
+                    </div>
+                    <div className="course--description">
+                    <p>{this.state.description}</p>
+                    </div>
+                </div>
+
+                <div className="grid-25 grid-right">
+                    <div className="course--stats">
+                    <ul className="course--stats--list">
+                        <li className="course--stats--list--item">
+                        <h4>Estimated Time</h4>
+                        <h3>{this.state.estimatedTime}</h3>
+                        </li>
+                        <li className="course--stats--list--item">
+                        <h4>Materials Needed</h4>
+                        <ul>
+                            <li>{this.state.materialsNeeded}</li>
+                        </ul>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+
             </div> 
-        
-        )
-       
-    })}
-    </div>
-    )      
+      
+        </div>
+   
+    )
+   
+    
     }
 }
