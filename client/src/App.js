@@ -5,26 +5,31 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  BrowserRouter
+  BrowserRouter,
+  Redirect
 } from 'react-router-dom';
 
 // Visual Components
 import Header from './components/Header';
 import Courses from './components/Courses';
+import CourseDetail from './components/CourseDetail';
 
 // Context
 //const HeaderWithContext = withContext(Header);
 
 export default () =>(
-<Router>
-  <div>
-      <Header />
-      <Switch>
-        <Route exact path ="/" component={Courses} />
-      </Switch>
-    </div>
+  <Router>
+    <div>
+        <Header />
 
-</Router>
+        <Switch>
+        <Redirect exact from="/" to="/courses" />
+        <Route exact path="/courses" component={Courses} />
+        <Route path="/courses/:id" component={CourseDetail} />
+        </Switch>
+      </div>
+
+  </Router>
 
 );
 
