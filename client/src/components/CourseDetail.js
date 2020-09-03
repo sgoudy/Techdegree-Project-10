@@ -13,7 +13,8 @@ export default class Courses extends React.PureComponent{
         lastName: '',
         emailAddress: ''
       }
-
+      
+//TODO something is up with this 
     componentDidMount(){
 
         let path = window.location.pathname;

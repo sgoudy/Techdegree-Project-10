@@ -2,31 +2,32 @@ import React from 'react';
 
 export default class UpdateCourse extends React.PureComponent{
     
-    state={
-        course: []
+    // state={
+    //     course: []
+    // }
+
+    //  /**
+    //  *  @param {event} e Event handler.
+    //  */
+    handleSubmit = () => {
+        this.props.data()
     }
-
-     /**
-     *  @param {event} e Event handler.
-     */
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.setHistory();
-        // this.props.onSearch(this.query.value);
-        // this.props.loading();
-        e.currentTarget.reset();
-      }
+    //     e.preventDefault();
+    //     this.setHistory();
+    //     // this.props.onSearch(this.query.value);
+    //     // this.props.loading();
+    //     e.currentTarget.reset();
+    //   }
 
 
-    setHistory(){
-        console.log(window)
-    }
+    // setHistory(){
+    //     console.log(window)
+    // }
     
     render(){
-
-    const url = window.location;
-
         
+        console.log(this.props)
+
     return(
         <div className="bounds course--detail">
         <h1>Update Course</h1>
@@ -42,7 +43,7 @@ export default class UpdateCourse extends React.PureComponent{
                             type="text" 
                             className="input-title course--title--input" 
                             placeholder="Course title..." 
-                            value="Build a Basic Bookcase"
+                            value=''
                         />
                             
                     </div>
@@ -90,7 +91,7 @@ export default class UpdateCourse extends React.PureComponent{
                 </div>
                 </div>
                 <div className="grid-100 pad-bottom">
-                    <a className="button" type="submit" href="/courses/course-detail">Update Course</a>
+                    <button className="button" type="submit" href="/courses/">Update Course</button>
                     <a className="button button-secondary" href='/'>Cancel</a>
                 </div>
             </form>

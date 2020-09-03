@@ -15,6 +15,7 @@ import UpdateCourse from './components/UpdateCourse';
 import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
 import UserSignOut from './components/UserSignOut';
+import CreateCourse from './components/CreateCourse';
 
 
 // Context
@@ -42,10 +43,12 @@ export default class App extends Component {
   }
 
   componentDidUpdate(){
-    console.log(this.state)
+    
   }
 
   render(){
+
+   
 
     return(
 
@@ -64,10 +67,15 @@ export default class App extends Component {
             <CourseDetail onUpdate={this.courseDetailUpdate} />
         </Route>
 
-        <Route path="/courses/:id/update" >
-          <UpdateCourse data={this.componentDidUpdate}/>
+        <Route exact path="/courses/:id/update" >
+          <UpdateCourse data={this.state}/>
         </Route>
 
+//TODO fix here
+        <Route exact path="/courses/create" >
+          <CreateCourse />
+        </Route>
+// TODO to here
         <Route path ="/signin" component={UserSignIn}/>
         <Route path ="/signup" component={UserSignUp}/>
         <Route path ="/signout" component={UserSignOut}/>
