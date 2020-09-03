@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 export default class Courses extends React.PureComponent{
 
     state = {
@@ -13,8 +12,14 @@ export default class Courses extends React.PureComponent{
         .then((data) => {
             this.setState({ courses: [...data] });
         })
-        .catch(console.log)
+        .catch(error => {
+            console.log('Error fetching and parsing results', error);
+    })
     };
+
+    componentDidUpdate(){
+       this.props.onUpdate(this.state)
+    }
 
     render(){
 
@@ -39,7 +44,8 @@ export default class Courses extends React.PureComponent{
                  viewBox="0 0 13 13" className="add">
                  <polygon points="7,6 7,0 6,0 6,6 0,6 0,7 6,7 6,13 7,13 7,7 13,7 13,6 "></polygon>
              </svg>New Course</h3>
-             </a></div>  
+             </a>
+             </div>  
 
         </div>      
     )            
