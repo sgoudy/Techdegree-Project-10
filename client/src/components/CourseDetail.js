@@ -1,6 +1,7 @@
 import React from 'react';
+import UpdateCourse from './UpdateCourse';
 
-export default class Courses extends React.PureComponent{
+export default class CourseDetail extends React.PureComponent{
 
     state = {
         id: '',
@@ -13,10 +14,8 @@ export default class Courses extends React.PureComponent{
         lastName: '',
         emailAddress: ''
       }
-      
-//TODO something is up with this 
-    componentDidMount(){
 
+    componentDidMount(){
         let path = window.location.pathname;
         let url = 'http://localhost:5000/api' + path;
 
@@ -38,7 +37,8 @@ export default class Courses extends React.PureComponent{
         })
         .catch(error => {
             console.log('Error fetching and parsing results', error);
-    })};
+        })
+    };
         
     componentDidUpdate(){
         this.props.onUpdate(this.state)

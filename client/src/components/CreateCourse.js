@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-export default class CreateCourse extends React.PureComponent{
+export default class CreateCourse extends Component{
     render(){
     return(
 
         <div className="bounds course--detail">
-        {/* <h1>Create Course</h1>
+        <h1>Create Course</h1>
         <div>
+
+        {/* Validation errors need conditional statement for loading */}
+
           <div>
             <h2 className="validation--errors--label">Validation errors</h2>
             <div className="validation-errors">
@@ -15,7 +18,7 @@ export default class CreateCourse extends React.PureComponent{
                 <li>Please provide a value for "Description"</li>
               </ul>
             </div>
-          </div> */}
+          </div>
           <form>
             <div className="grid-66">
               <div className="course--header">
@@ -78,7 +81,7 @@ export default class CreateCourse extends React.PureComponent{
             </div>
           </form>
         </div>
-        // </div>
+        </div>
         
     )
     }

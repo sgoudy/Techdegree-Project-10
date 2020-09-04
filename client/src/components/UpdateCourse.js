@@ -9,9 +9,8 @@ export default class UpdateCourse extends React.PureComponent{
     //  /**
     //  *  @param {event} e Event handler.
     //  */
-    handleSubmit = () => {
-        this.props.data()
-    }
+   
+    // handleSubmit = () => {
     //     e.preventDefault();
     //     this.setHistory();
     //     // this.props.onSearch(this.query.value);
@@ -25,8 +24,6 @@ export default class UpdateCourse extends React.PureComponent{
     // }
     
     render(){
-        
-        console.log(this.props)
 
     return(
         <div className="bounds course--detail">

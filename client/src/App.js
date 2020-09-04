@@ -25,31 +25,30 @@ export default class App extends Component {
 
   state={
     courses: [],
-    courseDetail: []
+    courseDetail:[]
   }
 
   coursesUpdate=(props)=>{
     this.setState({
       courses: props,
       courseDetail: null
-    }, this.componentDidUpdate)
+    })
   }
 
   courseDetailUpdate=(props)=>{
     this.setState({
       courses: null,
       courseDetail: props
-    }, this.componentDidUpdate)
-  }
-
-  componentDidUpdate(){
-    
-  }
-
-  render(){
+    })
+  };
 
    
 
+  componentDidUpdate(){
+    console.log(this.state);
+  }
+
+  render(){
     return(
 
  
@@ -57,25 +56,29 @@ export default class App extends Component {
       <Header />
 
       <Switch>
-        <Redirect exact from="/" to="/courses" />
 
-        <Route exact path="/courses">
+        <Route exact path="/">
             <Courses onUpdate={this.coursesUpdate}/>
         </Route>
 
-        <Route exact path="/courses/:id">
+        <Route path="/courses/create">
+            <CreateCourse />
+        </Route>
+
+        <Route path="/courses/:id/update" >
+          <UpdateCourse course={this.state}/>
+        </Route>
+
+        <Route path="/courses/:id">
             <CourseDetail onUpdate={this.courseDetailUpdate} />
         </Route>
 
-        <Route exact path="/courses/:id/update" >
-          <UpdateCourse data={this.state}/>
-        </Route>
+        
 
-//TODO fix here
-        <Route exact path="/courses/create" >
-          <CreateCourse />
-        </Route>
-// TODO to here
+
+        
+         
+
         <Route path ="/signin" component={UserSignIn}/>
         <Route path ="/signup" component={UserSignUp}/>
         <Route path ="/signout" component={UserSignOut}/>
