@@ -17,11 +17,18 @@ export default class Courses extends React.PureComponent{
     })
     };
 
-    componentDidUpdate(){
-       this.props.onUpdate(this.state)
-    }
+    
 
     render(){
+
+        console.log(this.props)
+
+
+      const saveCourses=()=>{
+            this.props.coursesUpdate(this.state.courses);
+            console.log(this.props)
+        }
+       
 
     return(
 
@@ -31,7 +38,7 @@ export default class Courses extends React.PureComponent{
             return (
         
                 <div key={index} className="grid-33">
-                    <a className="course--module course--link" href={'/courses/' + courses.id}>
+                    <a className="course--module course--link" href={'/courses/' + courses.id} onClick={this.saveCourses}>
                     <h4 className="course--label">Course</h4>
                     <h3 className="course--title">{courses.title}</h3>
                     </a> 

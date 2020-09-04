@@ -1,4 +1,4 @@
-import React, { Link} from 'react';
+import React from 'react';
 
 
 export default class Header extends React.PureComponent {

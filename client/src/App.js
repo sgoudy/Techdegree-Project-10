@@ -2,9 +2,9 @@
 
 import React, {Component} from 'react';
 import {
+  BrowserRouter as Router,
   Route,
-  Switch,
-  Redirect
+  Switch
 } from 'react-router-dom';
 
 // Visual Components
@@ -17,74 +17,46 @@ import UserSignUp from './components/UserSignUp';
 import UserSignOut from './components/UserSignOut';
 import CreateCourse from './components/CreateCourse';
 
+import withContext from './Context';
 
-// Context
-//const HeaderWithContext = withContext(Header);
+const HeaderWithContext = withContext(Header);
+const UserSignUpWithContext = withContext(UserSignUp);
+const UserSignInWithContext = withContext(UserSignIn);
+const UserSignOutWithContext = withContext(UserSignOut);
 
-export default class App extends Component {
+export default () =>{
 
-  state={
-    courses: [],
-    courseDetail:[]
-  }
+     return(
 
-  coursesUpdate=(props)=>{
-    this.setState({
-      courses: props,
-      courseDetail: null
-    })
-  }
-
-  courseDetailUpdate=(props)=>{
-    this.setState({
-      courses: null,
-      courseDetail: props
-    })
-  };
-
-   
-
-  componentDidUpdate(){
-    console.log(this.state);
-  }
-
-  render(){
-    return(
-
- 
-    <div> 
-      <Header />
+    <Router>
+      <div> 
+      <HeaderWithContext />
 
       <Switch>
 
-        <Route exact path="/">
-            <Courses onUpdate={this.coursesUpdate}/>
-        </Route>
-
+        <Route exact path="/"  
+          render={(props)=>{return <Courses props={props} />}}
+          />
+            
         <Route path="/courses/create">
             <CreateCourse />
         </Route>
 
-        <Route path="/courses/:id/update" >
-          <UpdateCourse course={this.state}/>
-        </Route>
+        <Route path="/courses/:id/update" 
+        render={(props)=>{return <UpdateCourse props={props} />}}
+          />
 
-        <Route path="/courses/:id">
-            <CourseDetail onUpdate={this.courseDetailUpdate} />
-        </Route>
-
-        
+        <Route path="/courses/:id" 
+        render={(props)=>{return <CourseDetail props={props} />}}
+          />
 
 
-        
-         
-
-        <Route path ="/signin" component={UserSignIn}/>
-        <Route path ="/signup" component={UserSignUp}/>
-        <Route path ="/signout" component={UserSignOut}/>
+        <Route path ="/signin" component={UserSignInWithContext}/>
+        <Route path ="/signup" component={UserSignUpWithContext}/>
+        <Route path ="/signout" component={UserSignOutWithContext}/>
       </Switch>
-    </div>
+      </div>
+    </Router>
+    
     )
   }
-   
-}

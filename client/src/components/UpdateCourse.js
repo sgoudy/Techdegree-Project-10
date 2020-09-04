@@ -2,9 +2,45 @@ import React from 'react';
 
 export default class UpdateCourse extends React.PureComponent{
     
-    // state={
-    //     course: []
-    // }
+    state = {
+        id: '',
+        title: '',
+        description: '',
+        estimatedTime: '',
+        materialsNeeded: '',
+        userId: '',
+        firstName: '',
+        lastName: '',
+        emailAddress: ''
+      }
+
+    componentDidMount(){
+        console.log(this.props)
+       
+        // let path = window.location.pathname;
+        // let url = 'http://localhost:5000/api' + path;
+
+        // fetch(url)
+
+        // .then(res => (res.json()))
+        // .then((data) => {
+        //     this.setState({ 
+        //         id: data.id,
+        //         title: data.title,
+        //         description: data.description,
+        //         estimatedTime: data.estimatedTime,
+        //         materialsNeeded: data.materialsNeeded,
+        //         userId: data.User.id,
+        //         firstName: data.User.firstName,
+        //         lastName: data.User.lastName,
+        //         emailAddress: data.User.emailAddress
+        //     })
+        // })
+        // .catch(error => {
+        //     console.log('Error fetching and parsing results', error);
+        // })
+    };
+
 
     //  /**
     //  *  @param {event} e Event handler.
@@ -22,8 +58,11 @@ export default class UpdateCourse extends React.PureComponent{
     // setHistory(){
     //     console.log(window)
     // }
+  
     
     render(){
+
+        
 
     return(
         <div className="bounds course--detail">

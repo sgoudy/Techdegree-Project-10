@@ -1,5 +1,5 @@
 import React from 'react';
-import UpdateCourse from './UpdateCourse';
+
 
 export default class CourseDetail extends React.PureComponent{
 
@@ -16,11 +16,10 @@ export default class CourseDetail extends React.PureComponent{
       }
 
     componentDidMount(){
-        let path = window.location.pathname;
+        let props= this.props.props;
+        let path = props.location.pathname;
         let url = 'http://localhost:5000/api' + path;
-
         fetch(url)
-
         .then(res => (res.json()))
         .then((data) => {
             this.setState({ 
@@ -39,13 +38,11 @@ export default class CourseDetail extends React.PureComponent{
             console.log('Error fetching and parsing results', error);
         })
     };
-        
-    componentDidUpdate(){
-        this.props.onUpdate(this.state)
-    }
-    
 
+            
     render(){
+
+
 
     let materials = [];
     if (this.state.materialsNeeded){
