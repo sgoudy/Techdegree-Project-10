@@ -3,25 +3,28 @@ import React from 'react';
 
 export default class Header extends React.PureComponent {
     render() {
-    //  const { context } = this.props;
-    const authUser = 'shelby';
-    //  const authUser =context.authenticatedUser;
+     
+     const { context } = this.props;
+
+     const authUser =context.authenticatedUser;
+     console.log(authUser)
+
       return (
         <div className="header">
           <div className="bounds">
             <h1 className="header--logo">Courses</h1>
             <nav>
-              {/* {authUser ? (
+              {authUser ? (
                 <React.Fragment>
-                    <span>Welcome, {authUser}!</span>
+                    <span>Welcome, {authUser.userInfo.firstName}!</span>
                     <a href="/signout">Sign Out</a>
                 </React.Fragment>
-                ) : (  */}
+                ) : ( 
                 <React.Fragment>
                   <a className="signup" href="/signup">Sign Up</a>
                   <a className="signin" href="/signin">Sign In</a>
                 </React.Fragment>
-              {/* )} */}
+              )}
             </nav>
          </div>
          </div>
