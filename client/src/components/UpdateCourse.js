@@ -11,12 +11,13 @@ export default class UpdateCourse extends React.PureComponent{
         userId: '',
         firstName: '',
         lastName: '',
-        emailAddress: ''
+        emailAddress: '',
+        errors: []
       }
 
     componentDidMount(){
          
-        let path = this.props.props.location.pathname;
+        let path = this.props.location.pathname;
         let url = 'http://localhost:5000/api' + path;
         let newURL = url.slice(0,35);
      
@@ -41,35 +42,14 @@ export default class UpdateCourse extends React.PureComponent{
         })
     };
 
-
-     /**
-     *  @param {event} e Event handler.
-     */
-   
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.setHistory();
-        // this.props.onSearch(this.query.value);
-
-        e.currentTarget.reset();
-      }
-
-
-    setHistory(){
-        let path = `/courses/${this.state.id}`;
-        this.props.props.history.push(path);
-    }
-  
-    
     render(){
 
         
-
     return(
         <div className="bounds course--detail">
         <h1>Update Course</h1>
             <div>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.submit}>
                     <div className="grid-66">
                         <div className="course--header">
                             <h4 className="course--label">Course</h4>
@@ -138,20 +118,71 @@ export default class UpdateCourse extends React.PureComponent{
 
         )
     }
-change =(event)=>{
-    const name = event.target.name;
-    const value = event.target.value;
 
-    this.setState(() => {
-        return {
-        [name]: value
+ /**
+     *  @param {event} e Event handler.
+     */
+   
+    submit = (e) => {
+        e.preventDefault();
+        const { context } = this.props;
+
+        const {
+            id,
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded,
+            userId
+        } = this.state;
+       
+        const course = {
+            id,
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded,
+            userId
         };
-    });
-}
 
-cancel = ()=> {
-    this.props.history.push('/');
-}
+
+        context.data.updateCourse(course)
+        .then((course) => {
+            if (course === null) {
+              this.setState(() => {
+                return { errors: [ 'Update was unsuccessful' ] };
+              });
+            } else {
+              this.props.history.push('/courses/');
+            }})
+          .catch((err) => {
+            console.log(err);
+            this.props.history.push('/errors');
+          });
+  
+      }
+
+      //let path = `/courses/${this.state.id}`
+      //this.props.history.push(path);
+     // e.currentTarget.reset();
+      
+
+
+
+    change =(event)=>{
+        const name = event.target.name;
+        const value = event.target.value;
+
+        this.setState(() => {
+            return {
+            [name]: value
+            };
+        });
+    }
+
+    cancel = ()=> {
+        this.props.history.push('/');
+    }
 
 
 }

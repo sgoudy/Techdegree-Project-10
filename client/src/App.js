@@ -44,15 +44,8 @@ export default () =>{
             <CreateCourse />
         </Route>
 
-        <Route path="/courses/:id/update" 
-         render={(props)=>{return <UpdateCourseWithContext props={props} />}}
-          />
-
-        <Route path="/courses/:id" 
-          render={(props)=>{return <CourseDetailWithContext props={props} />}}
-          />
-
-
+        <Route path="/courses/:id/update" component={UpdateCourseWithContext}/>
+        <Route path="/courses/:id" component={CourseDetailWithContext} />
         <Route path ="/signin" component={UserSignInWithContext}/>
         <Route path ="/signup" component={UserSignUpWithContext}/>
         <Route path ="/signout" component={UserSignOutWithContext}/>

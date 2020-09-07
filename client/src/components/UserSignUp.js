@@ -8,25 +8,43 @@ export default class UserSignUp extends React.PureComponent{
         emailAddress: '',
         password: '',
         confirmPassword: '',
-        errors: ''
+        errors: '',
+        passErr: ''
       }
     
     render() {
+
         const {
         firstName,
         lastName,
         emailAddress,
         password,
-        confirmPassword
+        confirmPassword,
+        passErr,
+        errors
         } = this.state;
-
-    console.log(this.props.history.location.pathname)
 
     return(
         <div className="bounds">
             <div className="grid-33 centered signin">
                 <h1>Sign Up</h1>
             <div>
+
+            {
+                        (passErr.length || errors.length)
+                        ?
+                        <div>
+                        <h2 className="validation--errors--label">Validation errors</h2>
+                            <div className="validation-errors"> 
+                            <ul>
+                                <li> {passErr} </li>
+                                <li> {errors} </li>
+                            </ul>
+                            </div> 
+                        </div>
+                        : null
+                    }
+
                 <form onSubmit={this.submit}>
                     <div>
                         <input 
@@ -73,11 +91,8 @@ export default class UserSignUp extends React.PureComponent{
                             onChange={this.change}
                             value={confirmPassword}/>
                     </div>
-                    {
-        (this.state.errors)
-        ?  <p > {this.state.errors}</p>
-        : null
-      }
+                   
+                    
                 <div className="grid-100 pad-bottom">
                     <button className="button" type="submit">Sign Up</button>
                     <button className="button button-secondary" onClick={this.cancel} href='/'>Cancel</button>
@@ -91,7 +106,8 @@ export default class UserSignUp extends React.PureComponent{
     )
     }
 
-
+//TODO create error when Express validation fails
+    
     change =(event)=>{
         const name = event.target.name;
         const value = event.target.value;
@@ -108,41 +124,48 @@ export default class UserSignUp extends React.PureComponent{
         e.preventDefault();
         const { context } = this.props;
        
-        console.log({context})
         const {
           firstName,
           lastName,
           emailAddress,
           password,
-          confirmPassword
+          confirmPassword,
+          passErr
     } = this.state;
     
-    if (password === confirmPassword){
-        // Create user
+    if (password === confirmPassword && password != ''){
+      
         const user = {
             firstName,
             lastName,
             emailAddress,
-            password
+            password,
+            passErr
         };
+        this.setState({
+            passErr: ''
+        });
+
       context.data.createUser(user)
         .then( errors => {
+          
           if (errors.length) {
-            this.setState({ errors });
+            this.setState(
+                { errors });   
           } else {
+            this.setState({
+                errors: ''
+            });
             context.actions.signIn(emailAddress, password)
             .then(() => {
-            this.props.history.push('/signup');    
+            this.props.history.push('/');    
             });
           }
         })
-        .catch((err) => {
-          console.log(err);
-          this.props.history.push('/error');
-        });
+      
     } else {
         this.setState({
-            errors: 'The passwords must match, please try again'
+            passErr: 'The passwords must match, please try again.'
         })
     } 
     }
@@ -150,6 +173,6 @@ export default class UserSignUp extends React.PureComponent{
   
     cancel = (e) => {
         e.preventDefault();
-     this.props.history.push('/');
+        this.props.history.push('/');
     }
   }

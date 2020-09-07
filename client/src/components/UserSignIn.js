@@ -74,7 +74,7 @@ export default class UserSignIn extends React.PureComponent{
   submit =(e)=>{
     e.preventDefault();
       const { context } = this.props;
-      const { from } = this.props.location.state || { from: { pathname: '/users' } };
+      const { from } = this.props.location.state || { from: { pathname: '/' } };
       const { emailAddress, password } = this.state;
 
       context.actions.signIn(emailAddress, password)
@@ -90,7 +90,7 @@ export default class UserSignIn extends React.PureComponent{
 //TODO redirect this
         .catch((error) => {
           console.error(error);
-          this.props.history.push('/error');
+          this.props.history.push('/errors');
         });
   }
 

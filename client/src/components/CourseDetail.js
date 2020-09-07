@@ -16,8 +16,8 @@ export default class CourseDetail extends React.PureComponent{
       }
 
     componentDidMount(){
-        let props= this.props.props;
-        let path = props.location.pathname;
+
+        let path = this.props.location.pathname;
         let url = 'http://localhost:5000/api' + path;
         fetch(url)
         .then(res => (res.json()))
@@ -41,11 +41,13 @@ export default class CourseDetail extends React.PureComponent{
 
     handleHistory =()=>{
   
-        let path = `/courses/${this.state.id}`
+        let path = `/courses/${this.state.id}`;
         this.props.props.history.push(path)
     }
             
     render(){
+
+        console.log(this.props)
 
     let materials = [];
     if (this.state.materialsNeeded){

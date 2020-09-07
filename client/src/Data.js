@@ -43,7 +43,24 @@ export default class Data {
     }
     else if (response.status === 400) {
       return response.json().then(data => {
-        return data.errors;
+        return data.message;
+      });
+    }
+    else {
+      throw new Error();
+    }
+  }
+
+  async updateCourse(course) {
+    console.log(course)
+    const id = course.id
+    const response = await this.api(`/courses/${id}`, 'PUT', course);
+    if (response.status === 201) {
+      return [];
+    }
+    else if (response.status === 404) {
+      return response.json().then(data => {
+        return data.message;
       });
     }
     else {
