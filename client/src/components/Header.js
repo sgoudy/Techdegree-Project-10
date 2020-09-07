@@ -5,9 +5,7 @@ export default class Header extends React.PureComponent {
     render() {
      
      const { context } = this.props;
-
      const authUser =context.authenticatedUser;
-     console.log(authUser)
 
       return (
         <div className="header">
@@ -26,8 +24,8 @@ export default class Header extends React.PureComponent {
                 </React.Fragment>
               )}
             </nav>
-         </div>
-         </div>
+          </div>
+        </div>
       );
     }
   };

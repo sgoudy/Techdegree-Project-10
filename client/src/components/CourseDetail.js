@@ -39,10 +39,13 @@ export default class CourseDetail extends React.PureComponent{
         })
     };
 
+    handleHistory =()=>{
+  
+        let path = `/courses/${this.state.id}`
+        this.props.props.history.push(path)
+    }
             
     render(){
-
-
 
     let materials = [];
     if (this.state.materialsNeeded){

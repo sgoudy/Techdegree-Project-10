@@ -36,6 +36,7 @@ export default class Data {
   }
   
   async createUser(user) {
+    console.log(user)
     const response = await this.api('/users', 'POST', user);
     if (response.status === 201) {
       return [];
@@ -49,6 +50,8 @@ export default class Data {
       throw new Error();
     }
   }
+
+
 }
 
 //TODO will add course update/delete/create functions here!!

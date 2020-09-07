@@ -23,6 +23,8 @@ const HeaderWithContext = withContext(Header);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
+const UpdateCourseWithContext = withContext(UpdateCourse);
+const CourseDetailWithContext = withContext(CourseDetail);
 
 export default () =>{
 
@@ -43,11 +45,11 @@ export default () =>{
         </Route>
 
         <Route path="/courses/:id/update" 
-        render={(props)=>{return <UpdateCourse props={props} />}}
+         render={(props)=>{return <UpdateCourseWithContext props={props} />}}
           />
 
         <Route path="/courses/:id" 
-        render={(props)=>{return <CourseDetail props={props} />}}
+          render={(props)=>{return <CourseDetailWithContext props={props} />}}
           />
 
 
