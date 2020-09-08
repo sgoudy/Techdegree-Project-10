@@ -1,4 +1,5 @@
 import React from 'react';
+import Cookies from 'js-cookie';
 
 export default class UpdateCourse extends React.PureComponent{
     
@@ -8,10 +9,7 @@ export default class UpdateCourse extends React.PureComponent{
         description: '',
         estimatedTime: '',
         materialsNeeded: '',
-        userId: '',
-        firstName: '',
-        lastName: '',
-        emailAddress: '',
+        user: {},
         errors: []
       }
 
@@ -31,10 +29,7 @@ export default class UpdateCourse extends React.PureComponent{
                 description: data.description,
                 estimatedTime: data.estimatedTime,
                 materialsNeeded: data.materialsNeeded,
-                userId: data.User.id,
-                firstName: data.User.firstName,
-                lastName: data.User.lastName,
-                emailAddress: data.User.emailAddress
+                user: data.User
             })
         })
         .catch(error => {
@@ -43,7 +38,13 @@ export default class UpdateCourse extends React.PureComponent{
     };
 
     render(){
-
+        
+    const {
+        title,
+        description,
+        estimatedTime,
+        materialsNeeded
+    } = this.state;
         
     return(
         <div className="bounds course--detail">
@@ -60,7 +61,7 @@ export default class UpdateCourse extends React.PureComponent{
                                     type="text" 
                                     className="input-title course--title--input" 
                                     placeholder="Course title..." 
-                                    value={this.state.title}
+                                    value={title}
                                     onChange={this.change} />
                                     
                             </div>
@@ -72,7 +73,7 @@ export default class UpdateCourse extends React.PureComponent{
                                     id="description" 
                                     name="description" 
                                     placeholder="Course description..."
-                                    value={this.state.description}
+                                    value={description}
                                     onChange={this.change} />
                             </div>
                         </div>
@@ -89,7 +90,7 @@ export default class UpdateCourse extends React.PureComponent{
                                             type="text" 
                                             className="course--time--input" 
                                             placeholder="Hours" 
-                                            value={this.state.estimatedTime}
+                                            value={estimatedTime}
                                             onChange={this.change} />
                                     </div>
                                 </li>
@@ -101,7 +102,7 @@ export default class UpdateCourse extends React.PureComponent{
                                             name="materialsNeeded" 
                                             className="" 
                                             placeholder="List materials..."
-                                            value={this.state.materialsNeeded} 
+                                            value={materialsNeeded} 
                                             onChange={this.change} />
                                     </div>
                                 </li>
@@ -109,7 +110,7 @@ export default class UpdateCourse extends React.PureComponent{
                         </div>
                     </div>
                     <div className="grid-100 pad-bottom">
-                        <button className="button" type="submit" href="/courses/">Update Course</button>
+                        <button className="button" type="submit">Update Course</button>
                         <a className="button button-secondary" href='/' onClick={this.cancel}>Cancel</a>
                     </div>
                 </form>
@@ -133,33 +134,32 @@ export default class UpdateCourse extends React.PureComponent{
             description,
             estimatedTime,
             materialsNeeded,
-            userId
         } = this.state;
-       
         const course = {
             id,
             title,
             description,
             estimatedTime,
-            materialsNeeded,
-            userId
+            materialsNeeded
         };
-
-
-        context.data.updateCourse(course)
+        // Fetch decrypted password in order to validate against encrypted
+        const password = Cookies.get('userPassword')
+        
+        context.data.updateCourse(course, context.authenticatedUser.userInfo, password)
         .then((course) => {
             if (course === null) {
-              this.setState(() => {
+                this.setState(() => {
                 return { errors: [ 'Update was unsuccessful' ] };
-              });
+            });
             } else {
-              this.props.history.push('/courses/');
+                const path = `/courses/${id}`
+                this.props.history.push(path);
             }})
-          .catch((err) => {
+        .catch((err) => {
             console.log(err);
             this.props.history.push('/errors');
-          });
-  
+          })
+        
       }
 
       //let path = `/courses/${this.state.id}`
@@ -172,7 +172,6 @@ export default class UpdateCourse extends React.PureComponent{
     change =(event)=>{
         const name = event.target.name;
         const value = event.target.value;
-
         this.setState(() => {
             return {
             [name]: value

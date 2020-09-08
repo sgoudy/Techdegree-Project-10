@@ -16,20 +16,10 @@ export default class Courses extends React.PureComponent{
             console.log('Error fetching and parsing results', error);
     })
     };
-
-    
+ 
 
     render(){
-
-        console.log(this.props)
-
-
-      const saveCourses=()=>{
-            this.props.coursesUpdate(this.state.courses);
-            console.log(this.props)
-        }
        
-
     return(
 
         <div className="bounds">
@@ -38,7 +28,7 @@ export default class Courses extends React.PureComponent{
             return (
         
                 <div key={index} className="grid-33">
-                    <a className="course--module course--link" href={'/courses/' + courses.id} onClick={this.saveCourses}>
+                    <a className="course--module course--link" href={'/courses/' + courses.id} >
                     <h4 className="course--label">Course</h4>
                     <h3 className="course--title">{courses.title}</h3>
                     </a> 

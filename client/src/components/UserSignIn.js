@@ -12,7 +12,8 @@ export default class UserSignIn extends React.PureComponent{
 
   const {
       emailAddress,
-      password
+      password,
+      errors
   } = this.state;
 
   return(
@@ -22,10 +23,19 @@ export default class UserSignIn extends React.PureComponent{
     <h1>Sign In</h1>
       <div>
       {
-        (this.state.errors.length > 0)
-        ? this.state.errors.map((error, index) => <p key={index}> {error}</p>)
-        : null
-      }
+        ( errors.length)
+                        ?
+                        <div>
+                        <h2 className="validation--errors--label">Validation errors</h2>
+                            <div className="validation-errors"> 
+                            <ul>
+                                <li> {errors} </li>
+                            </ul>
+                            </div> 
+                        </div>
+                        : null
+                    }
+
         <form onSubmit={this.submit}>  
           <div>
             <input

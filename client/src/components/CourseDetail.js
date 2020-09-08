@@ -47,19 +47,25 @@ export default class CourseDetail extends React.PureComponent{
             
     render(){
 
-        console.log(this.props)
+    const {
+        id,
+        title,
+        firstName,
+        lastName,
+        description,
+        estimatedTime
+    } = this.state
 
+    // Iterate through required materials
     let materials = [];
-    if (this.state.materialsNeeded){
-        materials = this.state.materialsNeeded.split('*');
-    }
-    // Remove first bullet point... contains no data
     let mats;
-    if (materials){
-        mats = materials.map((item, index)=> <li key={index}>{item}</li>)
-    }
-    const items = mats.filter(item => item.key >0)
+        if (this.state.materialsNeeded){
+            materials = this.state.materialsNeeded.split('*');
+        } if (materials){
+            mats = materials.map((item, index)=> <li key={index}>{item}</li>)
+        } const items = mats.filter(item => item.key >0) 
     
+
     return(
 
         <div className="bounds">
@@ -68,7 +74,7 @@ export default class CourseDetail extends React.PureComponent{
                 <div className="bounds">
                     <div className="grid-100">
                         <span>
-                        <a className="button" href={'/courses/'+this.state.id+'/update'}>Update Course</a>
+                        <a className="button" href={'/courses/'+id+'/update'}>Update Course</a>
                         <a className="button" href="/">Delete Course</a>
                         </span>
                         <a className="button button-secondary" href="/">Return to List</a>
@@ -76,16 +82,16 @@ export default class CourseDetail extends React.PureComponent{
                 </div>
             </div>
 
-            <div className="bounds course--detail" key={this.state.id}>
+            <div className="bounds course--detail" key={id}>
                 
                 <div className="grid-66">
                     <div className="course--header">
                         <h4 className="course--label">Course</h4>
-                        <h3 className="course--title">{this.state.title}</h3>
-                        <p>By {this.state.firstName + ' ' + this.state.lastName}</p>
+                        <h3 className="course--title">{title}</h3>
+                        <p>By {firstName + ' ' + lastName}</p>
                     </div>
                     <div className="course--description">
-                    <p>{this.state.description}</p>
+                    <p>{description}</p>
                     </div>
                 </div>
 
@@ -94,7 +100,7 @@ export default class CourseDetail extends React.PureComponent{
                     <ul className="course--stats--list">
                         <li className="course--stats--list--item">
                             <h4>Estimated Time</h4>
-                            <h3>{this.state.estimatedTime}</h3>
+                            <h3>{estimatedTime}</h3>
                         </li>
                         <li className="course--stats--list--item">
                             <h4>Materials Needed</h4>

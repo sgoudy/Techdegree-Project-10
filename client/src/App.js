@@ -23,8 +23,11 @@ const HeaderWithContext = withContext(Header);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
-const UpdateCourseWithContext = withContext(UpdateCourse);
+const CoursesWithContext = withContext(Courses);
 const CourseDetailWithContext = withContext(CourseDetail);
+const UpdateCourseWithContext = withContext(UpdateCourse);
+
+const CreateCourseWithContext = withContext(CreateCourse);
 
 export default () =>{
 
@@ -35,15 +38,8 @@ export default () =>{
       <HeaderWithContext />
 
       <Switch>
-
-        <Route exact path="/"  
-          render={(props)=>{return <Courses props={props} />}}
-          />
-            
-        <Route path="/courses/create">
-            <CreateCourse />
-        </Route>
-
+        <Route exact path="/" component={CoursesWithContext}/>
+        <Route path="/courses/create" component={CreateCourseWithContext}/>
         <Route path="/courses/:id/update" component={UpdateCourseWithContext}/>
         <Route path="/courses/:id" component={CourseDetailWithContext} />
         <Route path ="/signin" component={UserSignInWithContext}/>
