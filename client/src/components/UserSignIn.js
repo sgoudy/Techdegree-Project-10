@@ -83,25 +83,25 @@ export default class UserSignIn extends React.PureComponent{
 
   submit =(e)=>{
     e.preventDefault();
-      const { context } = this.props;
-      const { from } = this.props.location.state || { from: { pathname: '/' } };
-      const { emailAddress, password } = this.state;
+    const { context } = this.props;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const { emailAddress, password } = this.state;
 
-      context.actions.signIn(emailAddress, password)
-        .then((user) => {
-          if (user === null) {
-            this.setState(() => {
-              return { errors: [ 'Sign-in was unsuccessful' ] };
-            });
-          } else {
-            this.props.history.push(from);
-          }
-      })
+    context.actions.signIn(emailAddress, password)
+      .then((user) => {
+        if (user === null) {
+          this.setState(() => {
+            return { errors: [ 'Sign-in was unsuccessful' ] };
+          });
+        } else {
+          this.props.history.push(from);
+        }
+    })
 //TODO redirect this
-        .catch((error) => {
-          console.error(error);
-          this.props.history.push('/errors');
-        });
+      .catch((error) => {
+        console.error(error);
+        this.props.history.push('/errors');
+      });
   }
 
   cancel = (e)=> {

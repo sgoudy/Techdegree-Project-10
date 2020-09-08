@@ -16,6 +16,8 @@ export default class Data {
       const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
       options.headers['Authorization'] = `Basic ${encodedCredentials}`;
     }
+  
+    console.log(options)
     return fetch(url, options);
   }
 
@@ -62,9 +64,36 @@ async getUser(emailAddress, password) {
 
 
 /**
+ * Creates New Course 
+ * @param {object} course 
+ * @param {object} context 
+ */
+//---------------------------------//
+async createCourse(course, context, password) {
+  
+  const emailAddress = context.emailAddress;
+ console.log(course)
+ 
+   const response = await this.api('/courses/', 'POST', course, true, {emailAddress, password});
+  // console.log(response)
+   if (response.status ) {
+     return response.message;
+  // } else if (response.status === 400) {
+  //   return response.json().then(data => {
+  //   return data.message
+  //   });
+   }
+  // else {
+  //   throw new Error();
+  // }
+}
+
+
+/**
  * Updates existing Course 
  * @param {object} course 
  * @param {object} context 
+ * @param {string} password
  */
 //---------------------------------//
   async updateCourse(course, context, password) {
