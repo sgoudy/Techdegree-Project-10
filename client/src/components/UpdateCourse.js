@@ -90,7 +90,11 @@ export default class UpdateCourse extends React.PureComponent{
                                             type="text" 
                                             className="course--time--input" 
                                             placeholder="Hours" 
-                                            value={estimatedTime}
+                                            value={
+                                                estimatedTime
+                                                ? estimatedTime
+                                                : ''
+                                            }
                                             onChange={this.change} />
                                     </div>
                                 </li>
@@ -102,7 +106,12 @@ export default class UpdateCourse extends React.PureComponent{
                                             name="materialsNeeded" 
                                             className="" 
                                             placeholder="List materials..."
-                                            value={materialsNeeded} 
+                                            value=
+                                            {
+                                                materialsNeeded
+                                                ? materialsNeeded
+                                                : '' 
+                                            } 
                                             onChange={this.change} />
                                     </div>
                                 </li>

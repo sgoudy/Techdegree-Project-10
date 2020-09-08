@@ -19,7 +19,6 @@ export default class Courses extends React.PureComponent{
  
 
     render(){
-       
     return(
 
         <div className="bounds">

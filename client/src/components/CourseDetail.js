@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Cookies from 'js-cookie';
 
 export default class CourseDetail extends React.PureComponent{
 
@@ -16,7 +16,6 @@ export default class CourseDetail extends React.PureComponent{
       }
 
     componentDidMount(){
-
         let path = this.props.location.pathname;
         let url = 'http://localhost:5000/api' + path;
         fetch(url)
@@ -40,7 +39,6 @@ export default class CourseDetail extends React.PureComponent{
     };
 
     handleHistory =()=>{
-  
         let path = `/courses/${this.state.id}`;
         this.props.props.history.push(path)
     }
@@ -65,7 +63,13 @@ export default class CourseDetail extends React.PureComponent{
             mats = materials.map((item, index)=> <li key={index}>{item}</li>)
         } const items = mats.filter(item => item.key >0) 
     
-
+    let user;
+    if (this.props.context.authenticatedUser){
+        user = this.props.context.authenticatedUser.userInfo.id;
+    }    
+    
+    const owner = this.state.userId;
+   
     return(
 
         <div className="bounds">
@@ -73,10 +77,15 @@ export default class CourseDetail extends React.PureComponent{
             <div className="actions--bar">
                 <div className="bounds">
                     <div className="grid-100">
+                        {
+                        (user === owner)
+                        ?
                         <span>
-                        <a className="button" href={'/courses/'+id+'/update'}>Update Course</a>
-                        <a className="button" href="/">Delete Course</a>
+                            <a className="button" href={'/courses/'+id+'/update'}>Update Course</a>
+                            <a className="button" onClick={this.submit}>Delete Course</a>
                         </span>
+                        : null
+                        }
                         <a className="button button-secondary" href="/">Return to List</a>
                     </div>
                 </div>
@@ -118,4 +127,36 @@ export default class CourseDetail extends React.PureComponent{
    
     )
     }
+    submit =()=>{
+        const { context } = this.props;
+
+        const {
+            id,
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded,
+        } = this.state;
+        const course = {
+            id,
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded
+        };
+        
+        // Fetch decrypted password in order to validate against encrypted
+        const password = Cookies.get('userPassword')
+        
+        context.data.deleteCourse(course, context.authenticatedUser.userInfo, password)
+        .then(
+            this.props.history.push('/')
+        )  
+        .catch((err) => {
+            console.log(err);
+            this.props.history.push('/errors');
+          })
+    }
+
+
 }

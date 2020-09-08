@@ -22,19 +22,19 @@ export default class UserSignIn extends React.PureComponent{
     <div className="grid-33 centered signin">
     <h1>Sign In</h1>
       <div>
-      {
-        ( errors.length)
-                        ?
-                        <div>
-                        <h2 className="validation--errors--label">Validation errors</h2>
-                            <div className="validation-errors"> 
-                            <ul>
-                                <li> {errors} </li>
-                            </ul>
-                            </div> 
-                        </div>
-                        : null
-                    }
+        {
+          ( errors.length)
+          ?
+          <div>
+          <h2 className="validation--errors--label">Validation errors</h2>
+              <div className="validation-errors"> 
+              <ul>
+                  <li> {errors} </li>
+              </ul>
+              </div> 
+          </div>
+          : null
+        }
 
         <form onSubmit={this.submit}>  
           <div>

@@ -38,6 +38,7 @@ async getUser(emailAddress, password) {
   }
 }
 
+
 /**
  *  Create New User 
  * @param {object} user 
@@ -58,6 +59,8 @@ async getUser(emailAddress, password) {
       throw new Error();
     }
   }
+
+
 /**
  * Updates existing Course 
  * @param {object} course 
@@ -68,20 +71,51 @@ async getUser(emailAddress, password) {
     const id = course.id
     const emailAddress = context.emailAddress;
    
- 
     const response = await this.api(`/courses/${id}`, 'PUT', course, true, {emailAddress, password});
+ 
+    if (response.status === 204) {
+      return [];
+    }
+    else if (response.status === 404) {
+      return response.json().then(data => {
+        return data.message;
+      });
+    }
+    else {
+      throw new Error();
+    }
+  }
+
+
+/**
+ * Deletes Course 
+ * @param {object} course 
+ * @param {object} context 
+ */
+//---------------------------------//
+  async deleteCourse(course, context, password) {
+    const id = course.id
+    console.log(course)
+    console.log(context)
+    console.log(password)
+    const emailAddress = context.emailAddress;
+   
+    const response = await this.api(`/courses/${id}`, 'DELETE', course, true, {emailAddress, password});
     console.log(response)
-    // if (response.status === 204) {
-    //   return [];
-    // }
-    // else if (response.status === 404) {
-    //   return response.json().then(data => {
-    //     return data.message;
-    //   });
-    // }
-    // else {
-    //   throw new Error();
-    // }
+    if (response.status === 204) {
+      return [];
+    } else if (response.status === 403) {
+      return response.json().then(data => {
+      return data.message
+      });
+    } else if (response.status === 404) {
+      return response.json().then(data => {
+        return data.message;
+      });
+    }
+    else {
+      throw new Error();
+    }
   }
 
 

@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import Cookies from 'js-cookie';
+
 
 export default class CreateCourse extends Component{
     state={
@@ -110,6 +112,46 @@ export default class CreateCourse extends Component{
         
     )
     }
+
+    submit=(e)=>{
+        e.preventDefault();
+        const { context } = this.props;
+
+        const {
+            id,
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded,
+        } = this.state;
+        const course = {
+            id,
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded
+        };
+        // Fetch decrypted password in order to validate against encrypted
+        const password = Cookies.get('userPassword')
+        
+        context.data.updateCourse(course, context.authenticatedUser.userInfo, password)
+        .then((course) => {
+            if (course === null) {
+                this.setState(() => {
+                return { errors: [ 'Update was unsuccessful' ] };
+            });
+            } else {
+                const path = `/courses/${id}`
+                this.props.history.push(path);
+            }})
+        .catch((err) => {
+            console.log(err);
+            this.props.history.push('/errors');
+          })
+        
+      }
+
+    
 
     change = (event) =>{
         const name= event.target.name;
