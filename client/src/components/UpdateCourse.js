@@ -53,6 +53,7 @@ export default class UpdateCourse extends React.PureComponent{
         <div className="bounds course--detail">
         <h1>Update Course</h1>
             <div>
+            {/* Conditional to show validation errors at top of form upon submission */}
                 {
                     ( errors.length)
                     ?

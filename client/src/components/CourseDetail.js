@@ -1,5 +1,6 @@
 import React from 'react';
 import Cookies from 'js-cookie';
+import ReactMarkdown from 'react-markdown';
 
 export default class CourseDetail extends React.PureComponent{
 
@@ -50,15 +51,6 @@ export default class CourseDetail extends React.PureComponent{
         materialsNeeded
     } = this.state
 
-    // Iterate through required materials
-    let materials = [];
-    let mats;
-        if (this.state.materialsNeeded){
-            materials = this.state.materialsNeeded.split('*');
-        } if (materials){
-            mats = materials.map((item, index)=> <li key={index}>{item}</li>)
-        } const items = mats.filter(item => item.key >0) 
-    
     // Determine user via context to display Update/Delete options if necessary
     let user;
     if (this.props.context.authenticatedUser){
@@ -72,7 +64,8 @@ export default class CourseDetail extends React.PureComponent{
             <div className="actions--bar">
                 <div className="bounds">
                     <div className="grid-100">
-                        {
+                    {/* Conditional determines if Logged-In User is Course Owner and renders Update/Delete buttons */}
+                    {
                         (user === owner)
                         ?
                         <span>
@@ -80,7 +73,7 @@ export default class CourseDetail extends React.PureComponent{
                             <button className="button" onClick={this.delete} href=''>Delete Course</button>
                         </span>
                         : null
-                        }
+                    }
                         <a className="button button-secondary" href="/">Return to List</a>
                     </div>
                 </div>
@@ -93,7 +86,9 @@ export default class CourseDetail extends React.PureComponent{
                         <p>By {firstName + ' ' + lastName}</p>
                     </div>
                     <div className="course--description">
-                        <p>{description}</p>
+                    <ReactMarkdown>
+                        {description}
+                    </ReactMarkdown>
                     </div>
                 </div>
                 <div className="grid-25 grid-right">
@@ -105,10 +100,11 @@ export default class CourseDetail extends React.PureComponent{
                             </li>
                             <li className="course--stats--list--item">
                                 <h4>Materials Needed</h4>
-                                <ul>
-                                    {items}
-                                    {materialsNeeded}
-                                </ul>
+                                    <ul>
+                                    <ReactMarkdown>
+                                        {materialsNeeded}
+                                    </ReactMarkdown>
+                                    </ul>
                             </li>
                         </ul>
                     </div>

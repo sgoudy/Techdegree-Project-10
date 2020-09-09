@@ -22,6 +22,7 @@ export default class Courses extends React.PureComponent{
     return(
 
         <div className="bounds">
+        {/* Retrieves Array of Courses and Maps Items as Individual Courses on Homepage */}
             {this.state.courses.map((courses, index) => {
                 return (
                 <div key={index} className="grid-33">

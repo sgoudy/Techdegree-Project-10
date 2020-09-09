@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default class Header extends React.PureComponent {
+    
     render() {
      
     const { context } = this.props;
@@ -12,6 +13,7 @@ export default class Header extends React.PureComponent {
         <div className="bounds">
             <h1 className="header--logo">Courses</h1>
             <nav>
+            {/* Conditional determines if User is logged in and renders options appropriately */}
                 {authUser ? (
                 <React.Fragment>
                     <span>Welcome, {authUser.userInfo.firstName}!</span>
