@@ -44,13 +44,28 @@ export default class UpdateCourse extends React.PureComponent{
         title,
         description,
         estimatedTime,
-        materialsNeeded
+        materialsNeeded,
+        errors
     } = this.state;
         
     return(
+
         <div className="bounds course--detail">
         <h1>Update Course</h1>
             <div>
+                {
+                    ( errors.length)
+                    ?
+                    <div>
+                    <h2 className="validation--errors--label">Validation errors</h2>
+                        <div className="validation-errors"> 
+                        <ul>
+                            {errors.map((error, i) => <li key={i}>{error}</li>)}
+                        </ul>
+                        </div> 
+                    </div>
+                    : null
+                }  
                 <form onSubmit={this.submit}>
                     <div className="grid-66">
                         <div className="course--header">
@@ -126,18 +141,31 @@ export default class UpdateCourse extends React.PureComponent{
                 </form>
             </div>
         </div>
-
         )
     }
 
- /**
-     *  @param {event} e Event handler.
+    /**
+     * Updates state when data is entered
+     * @param {event} e 
      */
-   
+    change =(event)=>{
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState(() => {
+            return {
+            [name]: value
+            };
+        });
+    }
+
+    /**
+     * Submits Updated Course to API for change in DB
+     * @param {e} event
+     */
     submit = (e) => {
         e.preventDefault();
+        // Retrieve USER context and Course Body
         const { context } = this.props;
-
         const {
             id,
             title,
@@ -154,44 +182,41 @@ export default class UpdateCourse extends React.PureComponent{
         };
         // Fetch decrypted password in order to validate against encrypted
         const password = Cookies.get('userPassword')
-        
+
+        // Pass above info to API and return USER to Course Detail Page
         context.data.updateCourse(course, context.authenticatedUser.userInfo, password)
-        .then((course) => {
-            if (course === null) {
-                this.setState(() => {
-                return { errors: [ 'Update was unsuccessful' ] };
-            });
-            } else {
+        .then(errors => { 
+            if (errors.length > 0) {
+                this.setState({ errors });
+            } 
+            else {
                 const path = `/courses/${id}`
                 this.props.history.push(path);
-            }})
+                }
+            })
+            
+            
+            // (course) => {
+            // if (course === null) {
+            //     this.setState(() => {
+            //     return { errors: [ 'Update was unsuccessful' ] };
+            // });
+            // } else {
+            //     const path = `/courses/${id}`
+            //     this.props.history.push(path);
+            // }})
         .catch((err) => {
             console.log(err);
-            this.props.history.push('/errors');
-          })
-        
-      }
-
-      //let path = `/courses/${this.state.id}`
-      //this.props.history.push(path);
-     // e.currentTarget.reset();
-      
-
-
-
-    change =(event)=>{
-        const name = event.target.name;
-        const value = event.target.value;
-        this.setState(() => {
-            return {
-            [name]: value
-            };
-        });
+            this.props.history.push('/error');
+          })   
     }
 
-    cancel = ()=> {
+    /**
+     * Cancels action and returns user to Main Page.
+     * @param {event} e 
+     */
+    cancel = (e)=> {
+        e.preventDefault();
         this.props.history.push('/');
     }
-
-
-}
+};

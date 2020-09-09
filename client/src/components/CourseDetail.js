@@ -13,7 +13,7 @@ export default class CourseDetail extends React.PureComponent{
         firstName: '',
         lastName: '',
         emailAddress: ''
-      }
+    }
 
     componentDidMount(){
         let path = this.props.location.pathname;
@@ -37,11 +37,6 @@ export default class CourseDetail extends React.PureComponent{
             console.log('Error fetching and parsing results', error);
         })
     };
-
-    handleHistory =()=>{
-        let path = `/courses/${this.state.id}`;
-        this.props.props.history.push(path)
-    }
             
     render(){
 
@@ -51,7 +46,8 @@ export default class CourseDetail extends React.PureComponent{
         firstName,
         lastName,
         description,
-        estimatedTime
+        estimatedTime,
+        materialsNeeded
     } = this.state
 
     // Iterate through required materials
@@ -63,17 +59,16 @@ export default class CourseDetail extends React.PureComponent{
             mats = materials.map((item, index)=> <li key={index}>{item}</li>)
         } const items = mats.filter(item => item.key >0) 
     
+    // Determine user via context to display Update/Delete options if necessary
     let user;
     if (this.props.context.authenticatedUser){
         user = this.props.context.authenticatedUser.userInfo.id;
     }    
-    
     const owner = this.state.userId;
     
     return(
 
         <div className="bounds">
-
             <div className="actions--bar">
                 <div className="bounds">
                     <div className="grid-100">
@@ -82,7 +77,7 @@ export default class CourseDetail extends React.PureComponent{
                         ?
                         <span>
                             <a className="button" href={'/courses/'+id+'/update'}>Update Course</a>
-                            <button className="button" onClick={this.submit} href=''>Delete Course</button>
+                            <button className="button" onClick={this.delete} href=''>Delete Course</button>
                         </span>
                         : null
                         }
@@ -90,9 +85,7 @@ export default class CourseDetail extends React.PureComponent{
                     </div>
                 </div>
             </div>
-
             <div className="bounds course--detail" key={id}>
-                
                 <div className="grid-66">
                     <div className="course--header">
                         <h4 className="course--label">Course</h4>
@@ -100,63 +93,50 @@ export default class CourseDetail extends React.PureComponent{
                         <p>By {firstName + ' ' + lastName}</p>
                     </div>
                     <div className="course--description">
-                    <p>{description}</p>
+                        <p>{description}</p>
                     </div>
                 </div>
-
                 <div className="grid-25 grid-right">
                     <div className="course--stats">
-                    <ul className="course--stats--list">
-                        <li className="course--stats--list--item">
-                            <h4>Estimated Time</h4>
-                            <h3>{estimatedTime}</h3>
-                        </li>
-                        <li className="course--stats--list--item">
-                            <h4>Materials Needed</h4>
-                            <ul>
-                                {items}
-                            </ul>
-                        </li>
-                    </ul>
+                        <ul className="course--stats--list">
+                            <li className="course--stats--list--item">
+                                <h4>Estimated Time</h4>
+                                <h3>{estimatedTime}</h3>
+                            </li>
+                            <li className="course--stats--list--item">
+                                <h4>Materials Needed</h4>
+                                <ul>
+                                    {items}
+                                    {materialsNeeded}
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-
             </div> 
-      
         </div>
-   
-    )
+    );
     }
 
-    submit =()=>{
+    /**
+     * Deletes course
+     */
+    delete =()=>{
+        // Retrieve USER context and Course ID
         const { context } = this.props;
-        const {
-            id,
-            title,
-            description,
-            estimatedTime,
-            materialsNeeded,
-        } = this.state;
-        const course = {
-            id,
-            title,
-            description,
-            estimatedTime,
-            materialsNeeded
-        };
-        
+        const id = this.state.id;
+
         // Fetch decrypted password in order to validate against encrypted
         const password = Cookies.get('userPassword')
-        
-        context.data.deleteCourse(course, context.authenticatedUser.userInfo, password)
+
+        // Pass above info to API and return USER to Main Page
+        context.data.deleteCourse(id, context.authenticatedUser.userInfo, password)
         .then(
             this.props.history.push('/')
         )  
         .catch((err) => {
             console.log(err);
-            this.props.history.push('/errors');
-          })
+            this.props.history.push('/error');
+        })
     }
-
-
-}
+};

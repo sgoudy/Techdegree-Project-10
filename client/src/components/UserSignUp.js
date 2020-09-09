@@ -102,22 +102,22 @@ export default class UserSignUp extends React.PureComponent{
 
 
     /**
-     * Updates state when data is entered.
+     * Updates state when data is entered
      * @param {event} e 
      */
     change =(e)=>{
         const name = e.target.name;
         const value = e.target.value;
             this.setState(() => {
-          return {
-            [name]: value
-          };
-        });
+                return {
+                    [name]: value
+                }
+            })
     };
 
 
     /**
-     * Submits state values to api 
+     * Submits User to API for addition to DB
      * @param {event} e 
      */
     submit = (e) => {
@@ -131,14 +131,15 @@ export default class UserSignUp extends React.PureComponent{
           password,
           confirmPassword
         } = this.state;
-    
+        
+        // Ensure password matches confirmation & !null 
         if (password === confirmPassword && password !== ''){
             const user = {
                 firstName,
                 lastName,
                 emailAddress,
                 password
-        };
+            };
         context.data.createUser(user)
             .then( errors => {
                 if (errors) {
@@ -160,7 +161,10 @@ export default class UserSignUp extends React.PureComponent{
         } 
     }
     
-  
+    /**
+     * Cancels action and returns user to Main Page.
+     * @param {event} e 
+     */
     cancel = (e) => {
         e.preventDefault();
         this.props.history.push('/');
