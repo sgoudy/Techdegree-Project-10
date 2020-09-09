@@ -16,16 +16,14 @@ export default class Data {
       const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
       options.headers['Authorization'] = `Basic ${encodedCredentials}`;
     }
-  
-    console.log(options)
     return fetch(url, options);
   }
 
-  /**
-   * Sign- In 
-   * @param {string} emailAddress 
-   * @param {string} password 
-   */
+/**
+ * Sign- In 
+ * @param {string} emailAddress 
+ * @param {string} password 
+ */
 //---------------------------------//
 async getUser(emailAddress, password) {
   const response = await this.api(`/users`, 'GET', null, true, {emailAddress, password});
@@ -47,20 +45,38 @@ async getUser(emailAddress, password) {
  */
 //---------------------------------//
   async createUser(user) {
-    console.log(user)
     const response = await this.api('/users', 'POST', user);
     if (response.status === 201) {
       return [];
     }
     else if (response.status === 400) {
       return response.json().then(data => {
-        return data.message;
+        return data.errors;
       });
     }
     else {
       throw new Error();
     }
   }
+
+
+ /**
+   * Get Courses
+   * 
+   */
+//---------------------------------//
+async getCourses() {
+  const response = await this.api(`/courses`, 'GET');
+  if (response.status === 200) {
+    return response.json().then(data => data);
+  }
+  else if (response.status === 401) {
+    return null;
+  }
+  else {
+    throw new Error();
+  }
+}
 
 
 /**
@@ -70,22 +86,18 @@ async getUser(emailAddress, password) {
  */
 //---------------------------------//
 async createCourse(course, context, password) {
-  
   const emailAddress = context.emailAddress;
- console.log(course)
- 
-   const response = await this.api('/courses/', 'POST', course, true, {emailAddress, password});
-  // console.log(response)
-   if (response.status ) {
-     return response.message;
-  // } else if (response.status === 400) {
-  //   return response.json().then(data => {
-  //   return data.message
-  //   });
-   }
-  // else {
-  //   throw new Error();
-  // }
+  const response = await this.api('/courses/', 'POST', course, true, {emailAddress, password})
+  if (response.status === 201) {
+    return [];
+  } else if (response.status === 400) {
+    return response.json().then(data => {
+    return data.errors;
+    });
+  }
+  else {
+    throw new Error();
+  }
 }
 
 
@@ -124,13 +136,10 @@ async createCourse(course, context, password) {
 //---------------------------------//
   async deleteCourse(course, context, password) {
     const id = course.id
-    console.log(course)
-    console.log(context)
-    console.log(password)
+ 
     const emailAddress = context.emailAddress;
    
     const response = await this.api(`/courses/${id}`, 'DELETE', course, true, {emailAddress, password});
-    console.log(response)
     if (response.status === 204) {
       return [];
     } else if (response.status === 403) {

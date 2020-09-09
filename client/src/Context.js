@@ -64,6 +64,7 @@ export class Provider extends Component {
         password: null
     });
     Cookies.remove('authenticatedUser');
+    Cookies.remove('userPassword')
   }
 }
 

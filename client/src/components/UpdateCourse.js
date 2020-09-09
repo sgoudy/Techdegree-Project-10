@@ -40,6 +40,7 @@ export default class UpdateCourse extends React.PureComponent{
     render(){
         
     const {
+        id,
         title,
         description,
         estimatedTime,
@@ -120,7 +121,7 @@ export default class UpdateCourse extends React.PureComponent{
                     </div>
                     <div className="grid-100 pad-bottom">
                         <button className="button" type="submit">Update Course</button>
-                        <a className="button button-secondary" href='/' onClick={this.cancel}>Cancel</a>
+                        <a className="button button-secondary" href={'/courses/'+id} onClick={this.cancel}>Cancel</a>
                     </div>
                 </form>
             </div>

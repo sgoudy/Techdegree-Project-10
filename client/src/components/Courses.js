@@ -14,7 +14,7 @@ export default class Courses extends React.PureComponent{
         })
         .catch(error => {
             console.log('Error fetching and parsing results', error);
-    })
+        })
     };
  
 

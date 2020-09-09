@@ -69,7 +69,7 @@ export default class CourseDetail extends React.PureComponent{
     }    
     
     const owner = this.state.userId;
-   
+    
     return(
 
         <div className="bounds">
@@ -82,7 +82,7 @@ export default class CourseDetail extends React.PureComponent{
                         ?
                         <span>
                             <a className="button" href={'/courses/'+id+'/update'}>Update Course</a>
-                            <a className="button" onClick={this.submit}>Delete Course</a>
+                            <button className="button" onClick={this.submit} href=''>Delete Course</button>
                         </span>
                         : null
                         }
@@ -127,9 +127,9 @@ export default class CourseDetail extends React.PureComponent{
    
     )
     }
+
     submit =()=>{
         const { context } = this.props;
-
         const {
             id,
             title,

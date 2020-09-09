@@ -11,7 +11,7 @@ export default class CreateCourse extends Component{
         userId: this.props.context.authenticatedUser.userInfo.id,
         firstName: this.props.context.authenticatedUser.userInfo.firstName,
         lastName: this.props.context.authenticatedUser.userInfo.lastName,
-        errors: ''
+        errors: []
     }
     
     render(){
@@ -38,7 +38,7 @@ export default class CreateCourse extends Component{
                 <h2 className="validation--errors--label">Validation errors</h2>
                     <div className="validation-errors"> 
                     <ul>
-                        <li> {errors} </li>
+                        {errors.map((error, i) => <li key={i}>{error}</li>)}
                     </ul>
                     </div> 
                 </div>
@@ -126,6 +126,7 @@ export default class CreateCourse extends Component{
         } = this.state;
 
         const course = {
+            
             title,
             description,
             estimatedTime,
@@ -136,16 +137,20 @@ export default class CreateCourse extends Component{
         const password = Cookies.get('userPassword')
         
         context.data.createCourse(course, context.authenticatedUser.userInfo, password)
-       
-        .then((res) => {
-            if (res.status === 201) {
-                this.props.history.push('/')
-            }})          
+        .then( errors => { 
+            if (errors.length > 0) {
+                this.setState({ errors });
+            } 
+            else {
+                this.props.history.push('/')   
+                }
+            })
         .catch((err) => {
-            console.log(err);
-            this.props.history.push('/errors');
-        })
-    }
+            this.props.history.push('/error');
+        });
+      
+      }
+    
 
     
 

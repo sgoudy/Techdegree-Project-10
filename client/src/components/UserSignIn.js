@@ -10,6 +10,8 @@ export default class UserSignIn extends React.PureComponent{
 
   render(){
 
+    console.log(this.props)
+
   const {
       emailAddress,
       password,
