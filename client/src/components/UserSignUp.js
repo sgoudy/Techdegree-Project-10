@@ -8,7 +8,7 @@ export default class UserSignUp extends React.PureComponent{
         emailAddress: '',
         password: '',
         confirmPassword: '',
-        errors: []
+        errors:''
       }
     
     render() {
@@ -28,15 +28,28 @@ export default class UserSignUp extends React.PureComponent{
                 <h1>Sign Up</h1>
             <div>
                     {
-                        (errors.length)
+                        (errors.length> 0 && errors !== "Email in use.")
                         ?
                         <div>
-                        <h2 className="validation--errors--label">Validation errors</h2>
-                            <div className="validation-errors"> 
-                            <ul>
-                                {errors.map((error, i) => <li key={i}>{error}</li>)}
-                            </ul>
-                            </div> 
+                            <h2 className="validation--errors--label">Validation errors</h2>
+                                <div className="validation-errors"> 
+                                    <ul>
+                                        {errors.map((error, i) => <li key={i}>{error}</li>)}
+                                    </ul>
+                                </div> 
+                        </div>
+                        : null
+                    }
+                    {
+                        (errors === 'Email in use.')
+                        ?
+                        <div>
+                            <h2 className="validation--errors--label">Validation errors</h2>
+                                <div className="validation-errors"> 
+                                    <ul>
+                                        <li>{errors}</li>
+                                    </ul>
+                                </div> 
                         </div>
                         : null
                     }
@@ -122,7 +135,8 @@ export default class UserSignUp extends React.PureComponent{
      */
     submit = (e) => {
         e.preventDefault();
-        const { context } = this.props;
+        const { context } = this.props;  
+        // After account creation, send User to previous page, or Main Page if none
         const { from } = this.props.location.state || { from: { pathname: '/' } };
         const {
           firstName,
@@ -142,12 +156,22 @@ export default class UserSignUp extends React.PureComponent{
             };
         context.data.createUser(user)
             .then( errors => {
-                if (errors) {
-                    this.setState(
-                        { errors });   
-                } else {
-                    this.setState(
-                        { errors: [] });
+                // Display Express Validation
+                if (errors.length) {
+                    if (errors !== 'Email in use.'){
+                        this.setState({ 
+                            errors
+                        })
+                    } else {
+                        this.setState({
+                            errors: 'Email in use.'
+                        })
+                    }
+                }
+                else {
+                    this.setState({ 
+                        errors: '' 
+                    });
                     context.actions.signIn(emailAddress, password)
                     .then(() => {
                         this.props.history.push(from);    

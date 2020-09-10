@@ -7,13 +7,15 @@ export default class Courses extends React.PureComponent{
     }
 
     componentDidMount(){
-        const { context }= this.props;
+        const { context } = this.props;
         context.data.getCourses()
         .then((data) => {
             this.setState({ courses: [...data] });
+            this.props.history.push('/')
         })
-        .catch(error => {
-            console.log('Error fetching and parsing results', error);
+        .catch(err => {
+            console.log('Error fetching and parsing results', err);
+            this.props.history.push('/error');
         })
     };
 

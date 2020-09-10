@@ -21,20 +21,25 @@ export default class CourseDetail extends React.PureComponent{
         const course = match.params.id;
         context.data.getCourse(course)
         .then((data) => {
-            this.setState({ 
-                id: data.id,
-                title: data.title,
-                description: data.description,
-                estimatedTime: data.estimatedTime,
-                materialsNeeded: data.materialsNeeded,
-                userId: data.User.id,
-                firstName: data.User.firstName,
-                lastName: data.User.lastName,
-                emailAddress: data.User.emailAddress
+            if (data === 'Course not found.'){
+                this.props.history.push('/notfound')
+            } else {    
+                this.setState({ 
+                    id: data.id,
+                    title: data.title,
+                    description: data.description,
+                    estimatedTime: data.estimatedTime,
+                    materialsNeeded: data.materialsNeeded,
+                    userId: data.User.id,
+                    firstName: data.User.firstName,
+                    lastName: data.User.lastName,
+                    emailAddress: data.User.emailAddress
             })
+            }
         })
-        .catch(error => {
-            console.log('Error fetching and parsing results', error);
+        .catch(err => {
+            console.log('Error fetching and parsing results', err);
+            this.props.history.push('/error');
         })
     };
             

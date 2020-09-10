@@ -76,7 +76,7 @@ export default class Data {
             return response.json().then(data => data);
         } else if (response.status === 404){
             return response.json().then(data => {
-                console.log(data.message)
+                return data.errors;
             })
         } else {
           throw new Error();
@@ -115,15 +115,10 @@ export default class Data {
         const response = await this.api(`/courses/${id}`, 'PUT', course, true, {emailAddress, password});
         if (response.status === 204) {
             return [];
-        } else if (response.status === 400){
+        } else if (response.status === 400 || response.status === 403 || response.status === 404){
           return response.json().then(data => {
               return (data.errors);
             });
-        }
-        else if (response.status === 403 || response.status === 404){
-            return response.json().then(data => {
-                console.log(data.messages);
-          });
         }
         else {
             throw new Error();

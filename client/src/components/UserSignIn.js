@@ -10,6 +10,8 @@ export default class UserSignIn extends React.PureComponent{
 
     render(){
 
+
+      console.log(this.props)
     const {
         emailAddress,
         password,
@@ -91,7 +93,8 @@ export default class UserSignIn extends React.PureComponent{
         e.preventDefault();
         // Retrieve USER context and Course Body
         const { context } = this.props;
-        const { from } = this.props.location.state || { from: { pathname: '/' } };
+        //TODO figure this part out
+    //    const { from } = this.props.location.state || { from: { pathname: this.props.history.location.pathname } };
         const { emailAddress, password } = this.state;
 
         context.actions.signIn(emailAddress, password)
@@ -101,7 +104,7 @@ export default class UserSignIn extends React.PureComponent{
                       return { errors: [ 'Sign-in was unsuccessful' ] };
                   });
               } else {
-                  this.props.history.push(from);
+                  this.props.history.push('/');
               }
         })
         .catch((error) => {

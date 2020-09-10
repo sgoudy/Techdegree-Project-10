@@ -11,7 +11,7 @@ export default class CreateCourse extends Component{
         userId: this.props.context.authenticatedUser.userInfo.id,
         firstName: this.props.context.authenticatedUser.userInfo.firstName,
         lastName: this.props.context.authenticatedUser.userInfo.lastName,
-        errors: []
+        errors: ''
     }
     
     render(){
@@ -33,15 +33,15 @@ export default class CreateCourse extends Component{
                 <div>
                 {/* Conditional to show validation errors at top of form upon submission */}
                 {
-                    ( errors.length)
+                    (errors.length)
                     ?
                     <div>
-                    <h2 className="validation--errors--label">Validation errors</h2>
-                        <div className="validation-errors"> 
-                        <ul>
-                            {errors.map((error, i) => <li key={i}>{error}</li>)}
-                        </ul>
-                        </div> 
+                        <h2 className="validation--errors--label">Validation errors</h2>
+                            <div className="validation-errors"> 
+                                <ul>
+                                    {errors.map((error, i) => <li key={i}>{error}</li>)}
+                                </ul>
+                            </div> 
                     </div>
                     : null
                 }     
@@ -156,7 +156,8 @@ export default class CreateCourse extends Component{
         // Pass above info to API and return USER to Main Page
         context.data.createCourse(course, context.authenticatedUser.userInfo, password)
         .then( errors => { 
-            if (errors.length > 0) {
+            // Display Express Validation
+            if (errors.length) {
                 this.setState({ errors });
             } 
             else {

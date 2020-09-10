@@ -1,6 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 
+
 export default class UpdateCourse extends React.PureComponent{
     
     state = {
@@ -9,31 +10,34 @@ export default class UpdateCourse extends React.PureComponent{
         description: '',
         estimatedTime: '',
         materialsNeeded: '',
-        user: {},
-        errors: []
+        owner: {},
+        errors: ''
       }
 
     componentDidMount(){
-         
-        let path = this.props.location.pathname;
-        let url = 'http://localhost:5000/api' + path;
-        let newURL = url.slice(0,35);
-     
-        fetch(newURL)
-
-        .then(res => (res.json()))
+        const { context, match }= this.props;
+        const course = match.params.id;
+        context.data.getCourse(course)
         .then((data) => {
-            this.setState({ 
-                id: data.id,
-                title: data.title,
-                description: data.description,
-                estimatedTime: data.estimatedTime,
-                materialsNeeded: data.materialsNeeded,
-                user: data.User
-            })
+            if (data === 'Course not found.'){
+                this.props.history.push('/notfound')
+            } else if (data.User.id === context.authenticatedUser.userInfo.id){
+                this.setState({ 
+                    id: data.id,
+                    title: data.title,
+                    description: data.description,
+                    estimatedTime: data.estimatedTime,
+                    materialsNeeded: data.materialsNeeded,
+                    owner: data.User
+                })
+            }
+            else { 
+               this.props.history.push('/forbidden')
+            }
         })
-        .catch(error => {
-            console.log('Error fetching and parsing results', error);
+        .catch(err => {
+            console.log('Error fetching and parsing results', err);
+            this.props.history.push('/error');
         })
     };
 
@@ -45,9 +49,12 @@ export default class UpdateCourse extends React.PureComponent{
         description,
         estimatedTime,
         materialsNeeded,
+        owner,
         errors
     } = this.state;
         
+    console.log(errors)
+
     return(
 
         <div className="bounds course--detail">
@@ -55,15 +62,15 @@ export default class UpdateCourse extends React.PureComponent{
             <div>
             {/* Conditional to show validation errors at top of form upon submission */}
                 {
-                    ( errors.length)
+                    (errors.length)
                     ?
                     <div>
-                    <h2 className="validation--errors--label">Validation errors</h2>
-                        <div className="validation-errors"> 
-                        <ul>
-                            {errors.map((error, i) => <li key={i}>{error}</li>)}
-                        </ul>
-                        </div> 
+                        <h2 className="validation--errors--label">Validation errors</h2>
+                            <div className="validation-errors"> 
+                                <ul>
+                                    {errors.map((error, i) => <li key={i}>{error}</li>)}
+                                </ul>
+                            </div> 
                     </div>
                     : null
                 }  
@@ -82,7 +89,7 @@ export default class UpdateCourse extends React.PureComponent{
                                     onChange={this.change} />
                                     
                             </div>
-                            <p>By Joe Smith</p>
+                            <p>By {owner.firstName + ' ' + owner.lastName}</p>
                         </div>
                         <div className="course--description">
                             <div>
@@ -154,7 +161,7 @@ export default class UpdateCourse extends React.PureComponent{
         const value = event.target.value;
         this.setState(() => {
             return {
-            [name]: value
+                [name]: value
             };
         });
     }
@@ -186,30 +193,19 @@ export default class UpdateCourse extends React.PureComponent{
 
         // Pass above info to API and return USER to Course Detail Page
         context.data.updateCourse(course, context.authenticatedUser.userInfo, password)
-        .then(errors => { 
-            if (errors.length > 0) {
+        .then( errors => { 
+            // Display Express Validation
+            if (errors.length) {
                 this.setState({ errors });
             } 
             else {
-                const path = `/courses/${id}`
-                this.props.history.push(path);
+                this.props.history.push('/courses/'+course.id)   
                 }
-            })
-            
-            
-            // (course) => {
-            // if (course === null) {
-            //     this.setState(() => {
-            //     return { errors: [ 'Update was unsuccessful' ] };
-            // });
-            // } else {
-            //     const path = `/courses/${id}`
-            //     this.props.history.push(path);
-            // }})
+        })
         .catch((err) => {
             console.log(err);
             this.props.history.push('/error');
-          })   
+        });
     }
 
     /**
@@ -218,6 +214,7 @@ export default class UpdateCourse extends React.PureComponent{
      */
     cancel = (e)=> {
         e.preventDefault();
-        this.props.history.push('/');
+        const course = this.state.id
+        this.props.history.push('/courses/'+course);
     }
 };
