@@ -7,8 +7,8 @@ export default class Courses extends React.PureComponent{
     }
 
     componentDidMount(){
-        fetch('http://localhost:5000/api/courses')
-        .then(res => res.json())
+        const { context }= this.props;
+        context.data.getCourses()
         .then((data) => {
             this.setState({ courses: [...data] });
         })
@@ -18,7 +18,6 @@ export default class Courses extends React.PureComponent{
     };
 
     render(){
-
     return(
 
         <div className="bounds">

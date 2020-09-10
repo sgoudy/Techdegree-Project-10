@@ -17,10 +17,9 @@ export default class CourseDetail extends React.PureComponent{
     }
 
     componentDidMount(){
-        let path = this.props.location.pathname;
-        let url = 'http://localhost:5000/api' + path;
-        fetch(url)
-        .then(res => (res.json()))
+        const { context, match }= this.props;
+        const course = match.params.id;
+        context.data.getCourse(course)
         .then((data) => {
             this.setState({ 
                 id: data.id,
