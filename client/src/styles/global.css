@@ -369,7 +369,7 @@ p {
   font-family: "Cousine";
   font-size: 14px;
   font-weight: 100;
-  color: #F2F4F3;
+  color: #fff;
   margin-bottom: 10px;
   font-weight: normal;
 }
@@ -430,7 +430,7 @@ p {
 /* line 164, ../sass/global.sass */
 .course--header .course--label {
   font-size: 18px;
-  color: #999;
+  color: #a9927d;
 }
 /* line 167, ../sass/global.sass */
 .course--header .course--title {
