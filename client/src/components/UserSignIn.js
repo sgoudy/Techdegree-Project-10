@@ -20,7 +20,7 @@ export default class UserSignIn extends React.PureComponent{
 
     <div className="bounds">
         <div className="grid-33 centered signin">
-            <h1>Sign In</h1>
+            <h1 className="tag">Sign In</h1>
                 <div>
                 {/* Conditional to show validation errors at top of form upon submission */}
                 {
@@ -62,7 +62,7 @@ export default class UserSignIn extends React.PureComponent{
                     </form>    
               </div>
                   <p>&nbsp;</p>
-                  <p>Don't have a user account? 
+                  <p className="tag">Don't have a user account? 
                   <a href="/signup"> Click here</a> to sign up!
                   </p>
         </div>

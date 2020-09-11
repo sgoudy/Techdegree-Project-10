@@ -25,7 +25,7 @@ export default class UserSignUp extends React.PureComponent{
     return(
         <div className="bounds">
             <div className="grid-33 centered signin">
-                <h1>Sign Up</h1>
+                <h1 className="tag">Sign Up</h1>
             <div>
             {
                 (errors.length> 0 && errors !== "Email in use.")
@@ -107,7 +107,9 @@ export default class UserSignUp extends React.PureComponent{
         </form>
             </div>
                 <p>&nbsp;</p>
-                <p>Already have a user account? <a href="/signin" > Click here</a> to sign in!</p>
+                <p className="tag">Already have a user account? 
+                <a href="/signin" > Click here</a> to sign in!
+                </p>
             </div>
         </div>
     )
