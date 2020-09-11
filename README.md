@@ -9,7 +9,8 @@ This project is the capstone to the JavaScript Full-Stack Techdegree program! :+
 - [VSCode](https://code.visualstudio.com/)
 
 ## Installation
-1.
+1. run 'npm start' in client and api folders
+2. open localhost:3000 in browser
 
 ## License
 MIT © [ShelbyGoudy]()
