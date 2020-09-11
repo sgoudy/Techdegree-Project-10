@@ -52,9 +52,9 @@ export default () =>{
         <Route path ="/signup" component={UserSignUpWithContext}/>
         <Route path ="/signout" component={UserSignOutWithContext}/>
        
-        <Route path ="/forbidden" component={Forbidden} />
-        <Route path ="/notfound" component={NotFound} />
-        <Route path ="/error" component={Error}/>
+        <Route exact path ="/forbidden" component={Forbidden} />
+        <Route exact path ="/notfound" component={NotFound} />
+        <Route exact path ="/error" component={Error}/>
       </Switch>
       </div>
     </Router>

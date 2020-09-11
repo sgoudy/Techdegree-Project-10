@@ -14,6 +14,10 @@ export default class UpdateCourse extends React.PureComponent{
         errors: ''
       }
 
+    /**
+     * Fetches data to populate fields based on URL params.
+     * If course does not exist, renders 'Not Found', if not owner, renders 'Forbidden', else 'Unhandled Error'.
+     */
     componentDidMount(){
         const { context, match }= this.props;
         const course = match.params.id;
@@ -52,8 +56,6 @@ export default class UpdateCourse extends React.PureComponent{
         owner,
         errors
     } = this.state;
-        
-    console.log(errors)
 
     return(
 

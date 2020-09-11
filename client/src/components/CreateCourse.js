@@ -152,7 +152,7 @@ export default class CreateCourse extends Component{
 
         // Fetch decrypted password in order to validate against encrypted
         const password = Cookies.get('userPassword')
-//TODO set history to new course detail page
+
         // Pass above info to API and return USER to Main Page
         context.data.createCourse(course, context.authenticatedUser.userInfo, password)
         .then( errors => { 
@@ -162,7 +162,7 @@ export default class CreateCourse extends Component{
             } 
             else {
                 this.props.history.push('/')   
-                }
+            }
             })
         .catch((err) => {
             console.log(err);

@@ -10,8 +10,6 @@ export default class UserSignIn extends React.PureComponent{
 
     render(){
 
-
-      console.log(this.props)
     const {
         emailAddress,
         password,
@@ -24,7 +22,8 @@ export default class UserSignIn extends React.PureComponent{
         <div className="grid-33 centered signin">
             <h1>Sign In</h1>
                 <div>
-                    {
+                {/* Conditional to show validation errors at top of form upon submission */}
+                {
                     ( errors.length)
                     ?
                     <div>
@@ -36,7 +35,7 @@ export default class UserSignIn extends React.PureComponent{
                                 </div> 
                     </div>
                     : null
-                    }
+                }
                     <form onSubmit={this.submit}>  
                         <div>
                             <input
@@ -93,8 +92,8 @@ export default class UserSignIn extends React.PureComponent{
         e.preventDefault();
         // Retrieve USER context and Course Body
         const { context } = this.props;
-        //TODO figure this part out
-    //    const { from } = this.props.location.state || { from: { pathname: this.props.history.location.pathname } };
+        // Redirect User's who are auto routed to Sign-In back to their previous page, else to Main Page.
+        const { from } = this.props.location.state || { from: { pathname: '/' } };
         const { emailAddress, password } = this.state;
 
         context.actions.signIn(emailAddress, password)
@@ -104,7 +103,7 @@ export default class UserSignIn extends React.PureComponent{
                       return { errors: [ 'Sign-in was unsuccessful' ] };
                   });
               } else {
-                  this.props.history.push('/');
+                  this.props.history.push(from);
               }
         })
         .catch((error) => {

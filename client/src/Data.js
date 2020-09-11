@@ -39,7 +39,7 @@ export default class Data {
     }
 
     /**
-     *  Create New User 
+     * Create New User 
      * @param {object} user 
      */
     async createUser(user) {
@@ -70,6 +70,10 @@ export default class Data {
         }
     }
 
+    /**
+     * Get Course from DB
+     * @param {'string} id 
+     */
     async getCourse(id) {
         const response = await this.api('/courses/'+id, 'GET');
         if (response.status === 200){

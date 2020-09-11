@@ -16,6 +16,10 @@ export default class CourseDetail extends React.PureComponent{
         emailAddress: ''
     }
 
+    /**
+     * Fetches data to populate fields based on URL params.
+     * If course does not exist, renders 'Not Found', else 'Unhandled Error'.
+     */
     componentDidMount(){
         const { context, match }= this.props;
         const course = match.params.id;
