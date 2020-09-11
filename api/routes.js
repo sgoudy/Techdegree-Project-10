@@ -117,7 +117,9 @@ router.post('/users', [
     // Unique Email Requirement
     if (error.errors[0].type === 'unique violation'){
       return res.status(400).json({errors: 'Email in use.'})
-    }   
+    } else {
+      return res.json({errors})
+    }
   } 
   return res.status(201).end();
 }));
