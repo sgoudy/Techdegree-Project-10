@@ -105,11 +105,11 @@ export default class UserSignIn extends React.PureComponent{
               } else {
                   this.props.history.push(from);
               }
-        })
-        .catch((error) => {
-            console.error(error);
-            this.props.history.push('/error');
-        });
+          })
+          .catch((error) => {
+              console.error(error);
+              this.props.history.push('/error');
+          });
     }
 
     /**

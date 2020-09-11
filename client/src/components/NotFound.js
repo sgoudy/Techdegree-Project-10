@@ -4,7 +4,7 @@ export default class NotFound extends React.PureComponent {
     render() {
     return (
 
-        <div className="bounds">
+        <div className="bounds tag">
             <h1>Not Found</h1>
             <p>Sorry! We couldn't find the page you're looking for.</p>
         </div>

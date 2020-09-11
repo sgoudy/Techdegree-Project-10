@@ -179,6 +179,10 @@ export default class UserSignUp extends React.PureComponent{
                         this.props.history.push(from);    
                     });
                 }
+            })
+            .catch((error) => {
+                console.error(error);
+                this.props.history.push('/error');
             });
         } else {
             this.setState({
