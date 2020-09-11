@@ -1,7 +1,7 @@
 import config from './config';
 
 export default class Data {
-
+//TODO add comments
     api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
         const url = config.apiBaseUrl + path;
         const options = {
