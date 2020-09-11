@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
     },
     estimatedTime: Sequelize.STRING,
     materialsNeeded: Sequelize.STRING,
-  }, {  timestamps: false, sequelize });
+  }, {   sequelize });
 
   Course.associate = (models) => {
     Course.belongsTo(models.User, { 

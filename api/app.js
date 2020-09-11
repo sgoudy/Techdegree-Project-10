@@ -2,6 +2,7 @@
 
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 // Import Models and Sequelize
 const sequelize = require('./models/index').sequelize; 
@@ -18,6 +19,8 @@ app.use(express.json());
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
 
+// Enable CORS
+app.use(cors());
 
 // Import Routes
 const routes = require('./routes');

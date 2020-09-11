@@ -2,6 +2,8 @@
 
 const express = require('express');
 const router = express.Router();
+const cors = require('cors');
+router.use(cors());
 
 const { validationResult, check } = require('express-validator');
 const bcrypt = require('bcryptjs');
@@ -31,6 +33,7 @@ const authenticateUser = async (req, res, next) => {
   let user;
 // Parse Credentials from Header
   const credentials = auth(req);
+
   if (credentials) {
     user = await User.findOne({
       attributes: ['id', 'firstName', 'lastName', 'emailAddress', 'password'],
@@ -44,10 +47,10 @@ const authenticateUser = async (req, res, next) => {
         console.log(`Authentication successful for: ${credentials.name}`);
         req.currentUser = user;
       } else {
-        message = `Authentication failure for username: ${user.username}`;
+        message = `Authentication failure for username: ${user.emailAddress}`;
       }
     } else {
-        message = `User not found for: ${credentials.name}`;
+      message = `User not found for: ${credentials.name}`;
     }       
   } else {
     message = `Auth header not found`;
@@ -55,21 +58,22 @@ const authenticateUser = async (req, res, next) => {
 //FAILED AUTH
   if (message) {
     console.warn(message);
-    res.status(401).json({ message: 'Access Denied' });
+    res.status(401).json({ errors: 'Access Denied' });
 // SUCCESS
   } else {
     next();
   }
 };
   
-  
+
+
   //------- USER routes-----------//
 
 // GET /api/users 200 - Returns the currently authenticated user
 router.get('/users', authenticateUser, async (req, res) => {
   const user = req.currentUser.id;
   const userInfo = await User.findOne({
-    attributes: ['id', 'firstName', 'lastName', 'emailAddress'],
+    attributes: ['id', 'firstName', 'lastName', 'emailAddress', 'password'],
     where: {
       id: user
     }
@@ -112,10 +116,10 @@ router.post('/users', [
   } catch (error){
     // Unique Email Requirement
     if (error.errors[0].type === 'unique violation'){
-      return res.status(400).json({message: 'Email in use.'})
+      return res.status(400).json({errors: 'Email in use.'})
     }   
   } 
-  res.status(201).location('/').end();
+  return res.status(201).end();
 }));
 
 
@@ -147,7 +151,7 @@ router.get('/courses/:id', asyncHandler( async(req, res)=>{
   if (course) {
     res.json(course);
   } else {
-    res.status(404).json({message: "Course not found."})
+    res.status(404).json({errors: "Course not found."})
   }
 }));
 
@@ -171,7 +175,6 @@ router.post('/courses', authenticateUser, [
     return res.status(400).json({ errors: errorMessages });
   }
   const course = await Course.create({
-    id: req.body.id,
     userId: req.body.userId,
     title: req.body.title,
     description: req.body.description,
@@ -183,7 +186,7 @@ router.post('/courses', authenticateUser, [
 
 
 // PUT /api/courses/:id 204 - Updates a course and returns no content
-router.put('/courses/:id', authenticateUser, [
+router.put('/courses/:id', authenticateUser,[
   check('title')
     .exists({ checkNull: true, checkFalsy: true })
     .withMessage('Please provide a value for "title"'),
@@ -207,13 +210,14 @@ router.put('/courses/:id', authenticateUser, [
       }
       await course.update(req.body);
       res.status(204).end();
-    } else {
-      res.status(403).json({message: "User must be Course Owner in order to Update Course"})
-    } 
+   } else {
+     res.status(403).json({errors: "User must be Course Owner in order to Update Course"})
+   } 
   } else{
-    res.status(404).json({message: "Course Not Found."})
+    res.status(404).json({errors: "Course Not Found."})
   }
-}));
+}
+));
 
 
 // DELETE /api/courses/:id 204 - Deletes a course (if owned by requestor) and returns no content
@@ -229,9 +233,9 @@ router.delete('/courses/:id', authenticateUser, asyncHandler (async(req,res)=>{
     });
     res.status(204).end();
   } else if (course && owner !== courseOwner){
-    res.status(403).json({message: "User must be Course Owner in order to Delete Course"})
+    res.status(403).json({errors: "User must be Course Owner in order to Delete Course"})
   } else {
-    res.status(404).json({message: "Course Not Found."})
+    res.status(404).json({errors: "Course Not Found."})
   }
 }));
 
