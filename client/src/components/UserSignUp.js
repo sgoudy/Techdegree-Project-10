@@ -8,7 +8,8 @@ export default class UserSignUp extends React.PureComponent{
         emailAddress: '',
         password: '',
         confirmPassword: '',
-        errors:''
+        errors:[],
+        passErrors: ''
       }
     
     render() {
@@ -19,7 +20,8 @@ export default class UserSignUp extends React.PureComponent{
         emailAddress,
         password,
         confirmPassword,
-        errors
+        errors,
+        passErrors
     } = this.state;
 
     return(
@@ -28,32 +30,24 @@ export default class UserSignUp extends React.PureComponent{
                 <h1 className="tag">Sign Up</h1>
             <div>
             {
-                (errors.length> 0 && errors !== "Email in use.")
+                (errors.length || passErrors !== '')
                 ?
                 <div>
                     <h2 className="validation--errors--label">Validation errors</h2>
                         <div className="validation-errors"> 
                             <ul>
-                                {errors.map((error, i) => <li key={i}>{error}</li>)}
+                            {
+                                (errors.length)
+                                ?
+                                errors.map((error, i) => <li key={i}>{error}</li>)
+                                : null
+                            }        
+                                <li>{passErrors}</li>
                             </ul>
                         </div> 
                 </div>
                 : null
             }
-            {
-                (errors === 'Email in use.')
-                ?
-                <div>
-                    <h2 className="validation--errors--label">Validation errors</h2>
-                        <div className="validation-errors"> 
-                            <ul>
-                                <li>{errors}</li>
-                            </ul>
-                        </div> 
-                </div>
-                : null
-            }
-
         <form onSubmit={this.submit}>
             <div>
                 <input 
@@ -140,6 +134,7 @@ export default class UserSignUp extends React.PureComponent{
         const { context } = this.props;  
         // After account creation, send User to previous page, or Main Page if none
         const { from } = this.props.location.state || { from: { pathname: '/' } };
+        
         const {
           firstName,
           lastName,
@@ -147,18 +142,28 @@ export default class UserSignUp extends React.PureComponent{
           password,
           confirmPassword
         } = this.state;
-        
-        // Ensure password matches confirmation & !null 
-        if (password === confirmPassword && password !== ''){
-            const user = {
-                firstName,
-                lastName,
-                emailAddress,
-                password
-            };
-        context.data.createUser(user)
-            .then( errors => {
-                // Display Express Validation
+     
+        const user = {
+            firstName,
+            lastName,
+            emailAddress,
+            password
+        };
+
+        // Before creating User with info, check that passwords match. 
+        if (password !== confirmPassword){    
+            this.setState({
+                passErrors: 'Passwords must MATCH',
+                errors: ''
+            })
+        // Only once they match, is the data pushed to the DB.    
+        } else {
+            this.setState({
+                passErrors: ''
+            })
+            context.data.createUser(user)
+            .then( (errors) => {
+            // Display Express Validation
                 if (errors.length) {
                     if (errors !== 'Email in use.'){
                         this.setState({ 
@@ -166,11 +171,10 @@ export default class UserSignUp extends React.PureComponent{
                         })
                     } else {
                         this.setState({
-                            errors: 'Email in use.'
+                            errors: ['Email in use.']
                         })
                     }
-                }
-                else {
+                } else {
                     this.setState({ 
                         errors: '' 
                     });
@@ -183,13 +187,9 @@ export default class UserSignUp extends React.PureComponent{
             .catch((error) => {
                 console.error(error);
                 this.props.history.push('/error');
-            });
-        } else {
-            this.setState({
-                errors: ['Passwords must match.'] 
-            });
-        } 
-    }
+            })
+    }}
+     
     
     /**
      * Cancels action and returns user to Main Page.
