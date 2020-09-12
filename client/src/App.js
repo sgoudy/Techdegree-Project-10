@@ -44,15 +44,15 @@ export default () =>{
 
       <Switch>
         <Route exact path ="/" component={CoursesWithContext}/>
-        <PrivateRoute path ="/courses/create" component={CreateCourseWithContext}/>
+        <PrivateRoute exact path ="/courses/create" component={CreateCourseWithContext}/>
         
-        <Route path ="/signin" component={UserSignInWithContext}/>
-        <Route path ="/signup" component={UserSignUpWithContext}/>
-        <Route path ="/signout" component={UserSignOutWithContext}/>
+        <Route exact path ="/signin" component={UserSignInWithContext}/>
+        <Route exact path ="/signup" component={UserSignUpWithContext}/>
+        <Route exact path ="/signout" component={UserSignOutWithContext}/>
        
-        <Route path ="/forbidden" component={Forbidden} />
-        <Route path ="/notfound" component={NotFound} />
-        <Route path ="/error" component={Error}/>
+        <Route exact path ="/forbidden" component={Forbidden} />
+        <Route exact path ="/notfound" component={NotFound} />
+        <Route exact path ="/error" component={Error}/>
         
         <Route exact path ="/courses/:id" component={CourseDetailWithContext} />
         <PrivateRoute exact path ="/courses/:id/update" component={UpdateCourseWithContext}/>
