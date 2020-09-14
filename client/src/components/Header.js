@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class Header extends Component{
-    render(){
+export default ({context}) =>{
     
-    const { context } = this.props;
     const authUser = context.authenticatedUser;
 
     return (
@@ -28,5 +26,4 @@ export default class Header extends Component{
         </div>
     </div>
     ); 
-  }
 };
