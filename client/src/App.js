@@ -20,7 +20,7 @@ import PrivateRoute from './PrivateRoute';
 
 import Forbidden from './components/Forbidden';
 import NotFound from './components/NotFound';
-import Error from './components/UnhandledError';
+import UnhandledError from './components/UnhandledError';
 
 import withContext from './Context';
 
@@ -52,7 +52,7 @@ export default () =>{
        
         <Route exact path ="/forbidden" component={Forbidden} />
         <Route exact path ="/notfound" component={NotFound} />
-        <Route exact path ="/error" component={Error}/>
+        <Route exact path ="/error" component={UnhandledError}/>
         
         <Route exact path ="/courses/:id" component={CourseDetailWithContext} />
         <PrivateRoute exact path ="/courses/:id/update" component={UpdateCourseWithContext}/>

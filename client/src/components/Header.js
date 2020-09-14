@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default class Header extends React.PureComponent {
-    render() {
-     
+export default class Header extends Component{
+    render(){
+    
     const { context } = this.props;
     const authUser = context.authenticatedUser;
 
@@ -15,7 +15,7 @@ export default class Header extends React.PureComponent {
             {/* Conditional determines if User is logged in and renders options appropriately */}
                 {authUser ? (
                 <React.Fragment>
-                    <span>Welcome, {authUser.userInfo.firstName}!</span>
+                    <span>Welcome, {authUser.userInfo.firstName + ' ' + authUser.userInfo.lastName}!</span>
                     <a href="/signout">Sign Out</a>
                 </React.Fragment>
                 ) : ( 
@@ -27,6 +27,6 @@ export default class Header extends React.PureComponent {
             </nav>
         </div>
     </div>
-    );
-    }
+    ); 
+  }
 };

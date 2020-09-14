@@ -1,7 +1,6 @@
 import React from 'react';
 
-export default class Error extends React.PureComponent {
-    render() {
+export default () => {
     return (
 
         <div className="bounds tag">
@@ -9,5 +8,4 @@ export default class Error extends React.PureComponent {
             <p>Sorry! We just encountered an unexpected error.</p>
         </div>
     );
-    }
   };
