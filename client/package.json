@@ -16,6 +16,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "heroku-postbuild": "concurrently \"cd ../api && npm start\" \"npm run start\"",
     "dev": "concurrently \"cd ../api && npm start\" \"npm run start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
