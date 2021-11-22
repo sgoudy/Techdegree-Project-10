@@ -12,8 +12,7 @@ This project is the capstone to the JavaScript Full-Stack Techdegree program! :+
 ![Screenshot of project 10](/client/public/project10.png?raw=true)
 
 ## Installation
-1. run 'npm start' in client and api folders
-2. open localhost:3000 in browser
+1. type 'npm run dev' in client folder
 
 ## License
 MIT © [ShelbyGoudy]()
